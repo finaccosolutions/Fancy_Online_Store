@@ -411,11 +411,11 @@ const Home: React.FC = () => {
                                 {category.name.charAt(0)}
                               </span>
                             </div>
-                          )}
-                        </div>
+                          )} 
+                        </div> 
                         <div className={`p-4 transition-all duration-500 ${
                           isSelected
-                            ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white'
+                            ? 'bg-gradient-to-br from-blue-400 to-blue-100 text-white'
                             : 'bg-white text-gray-900 group-hover:bg-gradient-to-br group-hover:from-slate-50 group-hover:to-white'
                         }`}>
                           <div className="flex items-center justify-between gap-2 mb-1">
