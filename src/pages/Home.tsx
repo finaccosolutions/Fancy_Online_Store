@@ -135,71 +135,83 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full h-[400px] sm:h-[550px] lg:h-[800px] flex items-end justify-center overflow-hidden bg-gradient-to-b from-blue-900 to-blue-950 group">
-        {/* Hero Image Background with Fade Animation */}
-        <motion.div
-          key={currentHeroIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="absolute inset-0 w-full h-full"
-        >
-          {currentHeroImage && (
-            <motion.img
-              initial={{ scale: 1.05 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1.2 }}
-              src={currentHeroImage}
-              alt="Hero Banner"
-              className="w-full h-full object-cover opacity-80"
-            />
-          )}
-        </motion.div>
+      <section className="relative w-full h-[400px] sm:h-[550px] lg:h-[800px] flex items-end justify-center overflow-hidden group">
+        {heroImages.length > 0 ? (
+          <>
+            {/* Hero Carousel with Scrollable Images */}
+            <div className="absolute inset-0 w-full h-full overflow-hidden">
+              <motion.div
+                className="flex h-full"
+                animate={{ x: `-${currentHeroIndex * 100}%` }}
+                transition={{ duration: 0.8, ease: 'easeInOut' }}
+              >
+                {heroImages.map((image, idx) => (
+                  <div key={image.id} className="min-w-full h-full flex-shrink-0">
+                    <motion.img
+                      src={image.image_url}
+                      alt={`Hero Banner ${idx + 1}`}
+                      className="w-full h-full object-cover opacity-85"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  </div>
+                ))}
+              </motion.div>
+            </div>
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/40 to-blue-900/80"></div>
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/40 to-blue-900/80"></div>
 
-        {/* Left Arrow */}
-        {heroImages.length > 1 && (
-          <motion.button
-            onClick={handlePrevHero}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/30 hover:bg-white/50 rounded-full backdrop-blur-sm transition-all duration-300"
-            aria-label="Previous hero image"
-          >
-            <ChevronLeft className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
-          </motion.button>
-        )}
-
-        {/* Right Arrow */}
-        {heroImages.length > 1 && (
-          <motion.button
-            onClick={handleNextHero}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/30 hover:bg-white/50 rounded-full backdrop-blur-sm transition-all duration-300"
-            aria-label="Next hero image"
-          >
-            <ChevronRight className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
-          </motion.button>
-        )}
-
-        {/* Carousel Indicators */}
-        {heroImages.length > 1 && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-            {heroImages.map((_, idx) => (
+            {/* Left Arrow */}
+            {heroImages.length > 1 && (
               <motion.button
-                key={idx}
-                onClick={() => setCurrentHeroIndex(idx)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  idx === currentHeroIndex ? 'bg-yellow-500 w-8' : 'bg-white/50 w-2'
-                }`}
-                whileHover={{ scale: 1.2 }}
-                aria-label={`Go to hero image ${idx + 1}`}
-              />
-            ))}
-          </div>
+                onClick={handlePrevHero}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/30 hover:bg-white/50 rounded-full backdrop-blur-sm transition-all duration-300"
+                aria-label="Previous hero image"
+              >
+                <ChevronLeft className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+              </motion.button>
+            )}
+
+            {/* Right Arrow */}
+            {heroImages.length > 1 && (
+              <motion.button
+                onClick={handleNextHero}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/30 hover:bg-white/50 rounded-full backdrop-blur-sm transition-all duration-300"
+                aria-label="Next hero image"
+              >
+                <ChevronRight className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+              </motion.button>
+            )}
+
+            {/* Carousel Indicators */}
+            {heroImages.length > 1 && (
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+                {heroImages.map((_, idx) => (
+                  <motion.button
+                    key={idx}
+                    onClick={() => setCurrentHeroIndex(idx)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      idx === currentHeroIndex ? 'bg-yellow-500 w-8' : 'bg-white/50 w-2'
+                    }`}
+                    whileHover={{ scale: 1.2 }}
+                    aria-label={`Go to hero image ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            {/* Fallback to solid background when no images */}
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-900 to-blue-950"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/40 to-blue-900/80"></div>
+          </>
         )}
 
         {/* Content */}

@@ -3,14 +3,19 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Settings, Palette, Type, Info, Phone, Home, LayoutDashboard, Mail, Server, DollarSign, ShieldCheck, Building2, FileText,
+  Plus, Trash2, Eye, EyeOff, GripVertical
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
 import { useSiteSettings } from '../../hooks/useSiteSettings';
 import { useToast } from '../../context/ToastContext';
+import { supabaseUrl, supabaseAnonKey } from '../../lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 import { camelToSnake, mapDbToForm } from '../../utils/settingsMapper';
 import { INDIAN_STATES } from '../../data/indianStates';
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 interface SiteSettingsForm {
   siteName: string;
@@ -336,6 +341,7 @@ const AdminSettings: React.FC = () => {
     { id: 'payment', label: 'Payment & Shipping', icon: DollarSign, color: 'text-green-500' },
     { id: 'maintenance', label: 'Maintenance', icon: ShieldCheck, color: 'text-orange-500' },
     { id: 'home', label: 'Home Page', icon: Home, color: 'text-admin-success' },
+    { id: 'hero', label: 'Hero Images', icon: FileText, color: 'text-blue-500' },
     { id: 'about', label: 'About Page', icon: Info, color: 'text-admin-warning' },
     { id: 'contact', label: 'Contact Page', icon: Phone, color: 'text-admin-secondary' },
     { id: 'footer', label: 'Footer', icon: LayoutDashboard, color: 'text-admin-info' },
@@ -1136,6 +1142,27 @@ const AdminSettings: React.FC = () => {
               </motion.div>
             )}
 
+            {activeTab === 'hero' && (
+              <motion.div
+                key="hero"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-6"
+              >
+                {/* Hero Images Management */}
+                <div className="bg-gradient-to-br from-admin-sidebar to-admin-background border border-admin-border p-6 rounded-xl shadow-lg">
+                  <h2 className={`text-2xl font-bold mb-4 flex items-center space-x-2 text-blue-500`}>
+                    <FileText className="h-6 w-6" />
+                    <span>Hero Carousel Images</span>
+                  </h2>
+                  <p className="text-sm text-admin-text-light mb-6">Manage the images displayed in the hero section carousel on the home page. Images will scroll left and right.</p>
+                  <HeroImagesManager />
+                </div>
+              </motion.div>
+            )}
+
             {activeTab === 'about' && (
               <motion.div
                 key="about"
@@ -1479,6 +1506,259 @@ const AdminSettings: React.FC = () => {
           </div>
         </form>
       </motion.div>
+    </div>
+  );
+};
+
+interface HeroImage {
+  id: string;
+  image_url: string;
+  display_order: number;
+  is_active: boolean;
+}
+
+const HeroImagesManager: React.FC = () => {
+  const [heroImages, setHeroImages] = useState<HeroImage[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [newImageUrl, setNewImageUrl] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const { showToast } = useToast();
+
+  useEffect(() => {
+    fetchHeroImages();
+  }, []);
+
+  const fetchHeroImages = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('hero_carousel_images')
+        .select('*')
+        .order('display_order', { ascending: true });
+
+      if (error) throw error;
+      setHeroImages(data || []);
+    } catch (error) {
+      console.error('Error fetching hero images:', error);
+      showToast('Failed to load hero images', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddImage = async () => {
+    if (!newImageUrl.trim()) {
+      showToast('Please enter an image URL', 'error');
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+      const maxOrder = heroImages.length > 0 ? Math.max(...heroImages.map(img => img.display_order)) : 0;
+
+      const { error } = await supabase
+        .from('hero_carousel_images')
+        .insert({
+          image_url: newImageUrl.trim(),
+          display_order: maxOrder + 1,
+          is_active: true,
+        });
+
+      if (error) throw error;
+
+      showToast('Hero image added successfully', 'success');
+      setNewImageUrl('');
+      await fetchHeroImages();
+    } catch (error) {
+      console.error('Error adding image:', error);
+      showToast('Failed to add hero image', 'error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDeleteImage = async (id: string) => {
+    if (!window.confirm('Are you sure you want to delete this hero image?')) return;
+
+    try {
+      const { error } = await supabase
+        .from('hero_carousel_images')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      showToast('Hero image deleted successfully', 'success');
+      await fetchHeroImages();
+    } catch (error) {
+      console.error('Error deleting image:', error);
+      showToast('Failed to delete hero image', 'error');
+    }
+  };
+
+  const handleToggleActive = async (id: string, isActive: boolean) => {
+    try {
+      const { error } = await supabase
+        .from('hero_carousel_images')
+        .update({ is_active: !isActive })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      showToast(isActive ? 'Hero image hidden' : 'Hero image shown', 'success');
+      await fetchHeroImages();
+    } catch (error) {
+      console.error('Error toggling image:', error);
+      showToast('Failed to update hero image', 'error');
+    }
+  };
+
+  const handleReorder = async (fromIdx: number, toIdx: number) => {
+    if (toIdx < 0 || toIdx >= heroImages.length) return;
+
+    try {
+      const newOrder = [...heroImages];
+      const [movedItem] = newOrder.splice(fromIdx, 1);
+      newOrder.splice(toIdx, 0, movedItem);
+
+      const updates = newOrder.map((img, idx) => ({
+        id: img.id,
+        display_order: idx,
+      }));
+
+      for (const update of updates) {
+        const { error } = await supabase
+          .from('hero_carousel_images')
+          .update({ display_order: update.display_order })
+          .eq('id', update.id);
+
+        if (error) throw error;
+      }
+
+      showToast('Hero images reordered successfully', 'success');
+      await fetchHeroImages();
+    } catch (error) {
+      console.error('Error reordering:', error);
+      showToast('Failed to reorder hero images', 'error');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="text-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-admin-primary mx-auto mb-2"></div>
+        <p className="text-admin-text-light text-sm">Loading hero images...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex gap-3">
+        <input
+          type="text"
+          placeholder="Enter image URL (e.g., https://example.com/image.jpg)"
+          value={newImageUrl}
+          onChange={(e) => setNewImageUrl(e.target.value)}
+          className="flex-1 px-4 py-2 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent"
+        />
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleAddImage}
+          disabled={isSaving}
+          className="px-6 py-2 bg-admin-primary text-white font-semibold rounded-lg hover:bg-admin-primary-dark transition-colors disabled:opacity-50"
+        >
+          <Plus className="h-5 w-5" />
+        </motion.button>
+      </div>
+
+      {heroImages.length === 0 ? (
+        <div className="bg-admin-card rounded-lg p-8 text-center border border-admin-border">
+          <p className="text-admin-text-light mb-2">No hero carousel images yet.</p>
+          <p className="text-sm text-admin-text-light">Add images to create a carousel on the home page hero section.</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {heroImages.map((image, idx) => (
+            <motion.div
+              key={image.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              className="bg-admin-card rounded-lg p-4 flex items-center gap-4 border border-admin-border"
+            >
+              <div className="cursor-grab active:cursor-grabbing">
+                <GripVertical className="h-5 w-5 text-admin-text-light" />
+              </div>
+
+              <img
+                src={image.image_url}
+                alt={`Hero ${idx + 1}`}
+                className="w-24 h-16 object-cover rounded"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2270%22%3E%3Crect fill=%22%23ddd%22 width=%22100%22 height=%2270%22/%3E%3C/svg%3E';
+                }}
+              />
+
+              <div className="flex-1">
+                <p className="font-semibold text-admin-text">Hero Image {idx + 1}</p>
+                <p className="text-xs text-admin-text-light truncate">{image.image_url}</p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {idx > 0 && (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleReorder(idx, idx - 1)}
+                    className="p-2 text-admin-text-light hover:bg-admin-border rounded"
+                    title="Move up"
+                  >
+                    ↑
+                  </motion.button>
+                )}
+
+                {idx < heroImages.length - 1 && (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleReorder(idx, idx + 1)}
+                    className="p-2 text-admin-text-light hover:bg-admin-border rounded"
+                    title="Move down"
+                  >
+                    ↓
+                  </motion.button>
+                )}
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleToggleActive(image.id, image.is_active)}
+                  className={`p-2 rounded transition-colors ${
+                    image.is_active
+                      ? 'text-admin-success hover:bg-admin-card'
+                      : 'text-admin-text-light hover:bg-admin-border'
+                  }`}
+                  title={image.is_active ? 'Hide' : 'Show'}
+                >
+                  {image.is_active ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleDeleteImage(image.id)}
+                  className="p-2 text-admin-danger hover:bg-admin-card rounded transition-colors"
+                  title="Delete"
+                >
+                  <Trash2 className="h-5 w-5" />
+                </motion.button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

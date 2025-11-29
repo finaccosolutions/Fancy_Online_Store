@@ -13,7 +13,6 @@ const adminNavigation = [
   { name: 'Orders', href: '/admin/orders', icon: ShoppingCart },
   { name: 'Users', href: '/admin/users', icon: Users },
   { name: 'Categories', href: '/admin/categories', icon: Tag },
-  { name: 'Hero Carousel', href: '/admin/hero-carousel', icon: Image },
   { name: 'Reports', href: '/admin/reports', icon: BarChart },
   { name: 'Site Settings', href: '/admin/settings', icon: Settings },
 ];
