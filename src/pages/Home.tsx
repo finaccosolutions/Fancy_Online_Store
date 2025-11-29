@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, ShoppingBag, Heart, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -26,6 +26,7 @@ interface Product {
   rating: number;
   sales_count: number;
   category: string;
+  category_name?: string;
 }
 
 interface HeroImage {
@@ -38,17 +39,21 @@ const Home: React.FC = () => {
   const { settings, loading: settingsLoading } = useSiteSettings();
   const navigate = useNavigate();
   const [categories, setCategories] = useState<Category[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [topProducts, setTopProducts] = useState<Product[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [heroImages, setHeroImages] = useState<HeroImage[]>([]);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const categoriesScrollRef = useRef<HTMLDivElement>(null);
+  const productsScrollRef = useRef<HTMLDivElement>(null);
   const { addToWishlist, removeFromWishlistByProductId, isInWishlist } = useSupabaseWishlist();
   const { showToast } = useToast();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [categoriesRes, productsRes, heroRes] = await Promise.all([
+        const [categoriesRes, productsRes, allProductsRes, heroRes] = await Promise.all([
           supabase.from('categories').select('*').order('name'),
           supabase
             .from('products')
@@ -57,14 +62,30 @@ const Home: React.FC = () => {
             .order('sales_count', { ascending: false })
             .limit(10),
           supabase
+            .from('products')
+            .select(`*, categories(name)`)
+            .eq('in_stock', true),
+          supabase
             .from('hero_carousel_images')
             .select('*')
             .eq('is_active', true)
             .order('display_order', { ascending: true })
         ]);
 
-        if (categoriesRes.data) setCategories(categoriesRes.data);
+        if (categoriesRes.data) {
+          setCategories(categoriesRes.data);
+          if (categoriesRes.data.length > 0) {
+            setSelectedCategory(categoriesRes.data[0].id);
+          }
+        }
         if (productsRes.data) setTopProducts(productsRes.data);
+        if (allProductsRes.data) {
+          const mappedProducts = allProductsRes.data.map((p: any) => ({
+            ...p,
+            category_name: p.categories?.name || p.category || 'Uncategorized'
+          }));
+          setAllProducts(mappedProducts);
+        }
         if (heroRes.data && heroRes.data.length > 0) {
           setHeroImages(heroRes.data);
         }
@@ -117,6 +138,38 @@ const Home: React.FC = () => {
         }
       }
     }
+  };
+
+  const scrollCategories = (direction: 'left' | 'right') => {
+    if (categoriesScrollRef.current) {
+      const scrollAmount = 300;
+      categoriesScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollProducts = (direction: 'left' | 'right') => {
+    if (productsScrollRef.current) {
+      const scrollAmount = 300;
+      productsScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const getProductsByCategory = (categoryId: string) => {
+    const selectedCat = categories.find(c => c.id === categoryId);
+    if (!selectedCat) return [];
+    return allProducts.filter(p => p.category_name === selectedCat.name).slice(0, 8);
+  };
+
+  const getProductCountByCategory = (categoryId: string) => {
+    const selectedCat = categories.find(c => c.id === categoryId);
+    if (!selectedCat) return 0;
+    return allProducts.filter(p => p.category_name === selectedCat.name).length;
   };
 
   if (settingsLoading || loadingData) {
@@ -259,7 +312,7 @@ const Home: React.FC = () => {
                 <Link
                   to="/products"
                   className="inline-flex items-center justify-center px-8 sm:px-12 py-4 sm:py-5 bg-yellow-500 text-blue-900 font-bold rounded-lg hover:bg-yellow-400 transition-all duration-300 space-x-2 shadow-lg hover:shadow-2xl"
-                >
+                > 
                   <ShoppingBag className="h-5 w-5" />
                   <span>Shop Now</span>
                   <ArrowRight className="h-5 w-5" />
@@ -283,7 +336,7 @@ const Home: React.FC = () => {
         </motion.div>
       </section>
 
-      {/* Category Groups Section */}
+      {/* Category Groups Section with Scrollable Categories */}
       <section className="py-16 sm:py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -294,65 +347,191 @@ const Home: React.FC = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Shop by Category
+              Explore Our Collections
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explore our curated collections across different styles and preferences
+              Browse through our featured categories and find exactly what you're looking for
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {categories.map((category, idx) => (
-              <motion.div
-                key={category.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                viewport={{ once: true }}
-                onClick={() => navigate(`/products?category=${encodeURIComponent(category.name)}`)}
-                className="group cursor-pointer"
+          {/* Horizontal Scrollable Categories */}
+          {categories.length > 0 && (
+            <div className="relative mb-12">
+              <button
+                onClick={() => scrollCategories('left')}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-blue-600 text-white rounded-full shadow-xl hover:bg-blue-700 transition-all duration-300 flex items-center justify-center hover:scale-110"
               >
-                <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300 h-72 sm:h-80 flex flex-col">
-                  {/* Category Image or Gradient Background */}
-                  {category.image_url ? (
-                    <>
-                      <motion.img
-                        src={category.image_url}
-                        alt={category.name}
-                        className="w-full h-48 sm:h-56 object-cover group-hover:scale-110 transition-transform duration-500 flex-shrink-0"
-                        whileHover={{ scale: 1.1 }}
-                      />
-                      <div className="absolute inset-0 h-48 sm:h-56 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                    </>
-                  ) : (
-                    <div className="w-full h-48 sm:h-56 bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-5xl font-bold">{category.name.charAt(0)}</span>
+                <ChevronLeft size={24} />
+              </button>
+
+              <div
+                ref={categoriesScrollRef}
+                className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-16"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {categories.map((category) => {
+                  const productCount = getProductCountByCategory(category.id);
+                  const isSelected = selectedCategory === category.id;
+
+                  return (
+                    <div
+                      key={category.id}
+                      onClick={() => setSelectedCategory(category.id)}
+                      className="flex-shrink-0 w-56 cursor-pointer group"
+                    >
+                      <div className={`relative rounded-2xl overflow-hidden transition-all duration-500 ${
+                        isSelected
+                          ? 'shadow-2xl shadow-blue-600/40 ring-4 ring-blue-600 ring-offset-2'
+                          : 'shadow-lg hover:shadow-2xl hover:-translate-y-1'
+                      }`}>
+                        <div className="relative h-40 overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-100">
+                          {category.image_url ? (
+                            <>
+                              <motion.img
+                                src={category.image_url}
+                                alt={category.name}
+                                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                                whileHover={{ scale: 1.1 }}
+                              />
+                              <div className={`absolute inset-0 transition-all duration-500 ${
+                                isSelected
+                                  ? 'bg-gradient-to-t from-blue-600/90 via-blue-600/40 to-transparent'
+                                  : 'bg-gradient-to-t from-gray-900/70 via-gray-900/30 to-transparent group-hover:from-blue-600/80 group-hover:via-blue-600/30'
+                              }`} />
+                            </>
+                          ) : (
+                            <div className={`absolute inset-0 transition-all duration-500 flex items-center justify-center ${
+                              isSelected
+                                ? 'bg-gradient-to-t from-blue-600/90 via-blue-600/40 to-transparent'
+                                : 'bg-gradient-to-t from-gray-900/70 via-gray-900/30 to-transparent group-hover:from-blue-600/80 group-hover:via-blue-600/30'
+                            }`} >
+                              <span className={`text-4xl font-bold transition-all duration-300 ${
+                                isSelected ? 'text-white' : 'text-gray-700 group-hover:text-white'
+                              }`}>
+                                {category.name.charAt(0)}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        <div className={`p-4 transition-all duration-500 ${
+                          isSelected
+                            ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white'
+                            : 'bg-white text-gray-900 group-hover:bg-gradient-to-br group-hover:from-slate-50 group-hover:to-white'
+                        }`}>
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <h3 className={`text-lg font-bold transition-all duration-300 ${
+                              isSelected ? 'text-white' : 'text-gray-900 group-hover:text-blue-600'
+                            }`}>
+                              {category.name}
+                            </h3>
+                            <div className={`px-2.5 py-0.5 rounded-full text-xs font-bold transition-all duration-300 ${
+                              isSelected
+                                ? 'bg-white/30 text-white'
+                                : 'bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white'
+                            }`}>
+                              {productCount}
+                            </div>
+                          </div>
+                          <p className={`text-xs transition-all duration-300 ${
+                            isSelected ? 'text-white/90' : 'text-gray-600 group-hover:text-gray-700'
+                          }`}>
+                            {productCount === 1 ? 'Product' : 'Products'} available
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  )}
+                  );
+                })}
+              </div>
 
-                  {/* Yellow Badge - Hidden by default, visible on hover */}
-                  <motion.div
-                    className="absolute top-4 right-4 bg-yellow-500 text-gray-900 w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300"
-                    whileHover={{ scale: 1.2, rotate: 10 }}
-                  >
-                    <ArrowRight className="h-5 w-5 font-bold" />
-                  </motion.div>
+              <button
+                onClick={() => scrollCategories('right')}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-blue-600 text-white rounded-full shadow-xl hover:bg-blue-700 transition-all duration-300 flex items-center justify-center hover:scale-110"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+          )}
 
-                  {/* Category Name and Description - Bottom */}
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-end">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 leading-tight">
-                      {category.name}
-                    </h3>
-                    {category.description && (
-                      <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
-                        {category.description}
-                      </p>
-                    )}
-                  </div>
+          {/* Products for Selected Category */}
+          {selectedCategory && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-2xl shadow-xl p-6 md:p-8"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                  {categories.find(c => c.id === selectedCategory)?.name} Products
+                </h3>
+              </div>
+
+              <div className="relative">
+                {getProductsByCategory(selectedCategory).length > 3 && (
+                  <>
+                    <button
+                      onClick={() => scrollProducts('left')}
+                      className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 w-10 h-10 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center"
+                    >
+                      <ChevronLeft size={20} />
+                    </button>
+                    <button
+                      onClick={() => scrollProducts('right')}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-10 h-10 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center"
+                    >
+                      <ChevronRight size={20} />
+                    </button>
+                  </>
+                )}
+
+                <div
+                  ref={productsScrollRef}
+                  className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
+                  {getProductsByCategory(selectedCategory).map((product) => (
+                    <div
+                      key={product.id}
+                      onClick={() => navigate(`/product/${product.id}`)}
+                      className="flex-shrink-0 w-52 bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-blue-600 hover:shadow-xl transition-all duration-500 cursor-pointer group hover:-translate-y-1"
+                    >
+                      <div className="relative h-32 overflow-hidden bg-gray-100">
+                        <motion.img
+                          src={product.image_url}
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-110 group-hover:brightness-110 transition-all duration-700"
+                          whileHover={{ scale: 1.1 }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent group-hover:from-blue-600/60 transition-all duration-500" />
+                        <motion.div
+                          className="absolute bottom-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:rotate-12"
+                          whileHover={{ rotate: 12 }}
+                        >
+                          <ChevronRight className="text-blue-600" size={16} />
+                        </motion.div>
+                      </div>
+                      <div className="p-3 group-hover:bg-gradient-to-br group-hover:from-blue-50 group-hover:to-white transition-all duration-500">
+                        <h4 className="font-bold text-gray-900 text-sm mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 min-h-[2.5rem]">
+                          {product.name}
+                        </h4>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-bold text-gray-900">
+                            ₹{product.price.toLocaleString()}
+                          </span>
+                          {product.rating > 0 && (
+                            <span className="text-xs text-amber-600 font-semibold">
+                              ★ {product.rating.toFixed(1)}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </motion.div>
+          )}
         </div>
       </section>
 
@@ -466,7 +645,7 @@ const Home: React.FC = () => {
                         e.preventDefault();
                         e.stopPropagation();
                       }}
-                      className="flex-1 flex items-center justify-center p-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded transition-all duration-200 shadow-sm hover:shadow-md"
+                      className="flex-1 flex items-center justify-center p-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded transition-all duration-200 shadow-sm hover:shadow-md"
                       aria-label="Add to cart"
                       title="Add to cart"
                     >
@@ -481,7 +660,7 @@ const Home: React.FC = () => {
                         e.stopPropagation();
                         navigate(`/product/${product.id}`);
                       }}
-                      className="flex-1 flex items-center justify-center p-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded transition-all duration-200 shadow-sm hover:shadow-md"
+                      className="flex-1 flex items-center justify-center p-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded transition-all duration-200 shadow-sm hover:shadow-md"
                       aria-label="Buy now"
                       title="Buy now"
                     >
