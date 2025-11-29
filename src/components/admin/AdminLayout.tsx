@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  LayoutDashboard, Package, Tag, Settings, BarChart, LogOut, User, X, ChevronLeft, ChevronRight, Eye, ShoppingCart, Users, FileText
+  LayoutDashboard, Package, Tag, Settings, BarChart, LogOut, User, X, ChevronLeft, ChevronRight, Eye, ShoppingCart, Users, FileText, Image
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -13,6 +13,7 @@ const adminNavigation = [
   { name: 'Orders', href: '/admin/orders', icon: ShoppingCart },
   { name: 'Users', href: '/admin/users', icon: Users },
   { name: 'Categories', href: '/admin/categories', icon: Tag },
+  { name: 'Hero Carousel', href: '/admin/hero-carousel', icon: Image },
   { name: 'Reports', href: '/admin/reports', icon: BarChart },
   { name: 'Site Settings', href: '/admin/settings', icon: Settings },
 ];

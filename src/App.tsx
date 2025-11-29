@@ -28,6 +28,7 @@ import AdminReports from './pages/admin/AdminReports';
 import AdminGSTReports from './pages/admin/AdminGSTReports';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminUsers from './pages/admin/AdminUsers';
+import AdminHeroCarousel from './pages/admin/AdminHeroCarousel';
 import { ToastProvider } from './context/ToastContext';
 import ScrollToTop from './components/ScrollToTop';
 import EmailVerified from './pages/EmailVerified';
@@ -48,6 +49,7 @@ function App() {
               <Route path="orders" element={<AdminOrders />} />
               <Route path="users" element={<AdminUsers />} />
               <Route path="categories" element={<AdminCategories />} />
+              <Route path="hero-carousel" element={<AdminHeroCarousel />} />
               <Route path="settings" element={<AdminSettings />} />
               <Route path="reports" element={<AdminReports />} />
               <Route path="gst-reports" element={<AdminGSTReports />} />
