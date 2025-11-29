@@ -37,6 +37,7 @@ export const useSupabaseProducts = () => {
           original_price,
           image_url,
           category,
+          category_id,
           in_stock,
           rating,
           reviews_count,
@@ -49,7 +50,7 @@ export const useSupabaseProducts = () => {
           hsn_code,
           price_inclusive_of_tax,
           default_delivery_days,
-          categories!inner(name)
+          categories(name)
         `)
         .order('name', { ascending: true });
 
@@ -57,11 +58,11 @@ export const useSupabaseProducts = () => {
         throw fetchError;
       }
 
-      const mappedProducts: SupabaseProduct[] = data.map((p: any) => ({
+      const mappedProducts: SupabaseProduct[] = (data || []).map((p: any) => ({
         ...p,
-        category_name: p.categories.name,
+        category_name: p.categories?.name || p.category || 'Uncategorized',
         category: p.category,
-        stockQuantity: p.stock_quantity, // Map stock_quantity to stockQuantity for frontend ProductType
+        stockQuantity: p.stock_quantity,
       }));
 
       setProducts(mappedProducts || []);
@@ -145,6 +146,7 @@ export const useSupabaseProducts = () => {
             original_price,
             image_url,
             category,
+            category_id,
             in_stock,
             rating,
             reviews_count,
@@ -157,13 +159,12 @@ export const useSupabaseProducts = () => {
             hsn_code,
             price_inclusive_of_tax,
             default_delivery_days,
-            categories!inner(name)
+            categories(name)
           `)
           .eq('id', id)
           .single(),
         new Promise((_, reject) =>
-          // MODIFIED: Increased timeout duration to 30 seconds
-          setTimeout(() => reject(new Error(`Product ${id} fetch timed out after 30 seconds`)), 30000) 
+          setTimeout(() => reject(new Error(`Product ${id} fetch timed out after 30 seconds`)), 30000)
         )
       ]);
 
@@ -179,9 +180,9 @@ export const useSupabaseProducts = () => {
 
       const mappedProduct: SupabaseProduct = {
         ...data,
-        category_name: data.categories.name,
+        category_name: data.categories?.name || data.category || 'Uncategorized',
         category: data.category,
-        stockQuantity: data.stock_quantity, // Map stock_quantity to stockQuantity
+        stockQuantity: data.stock_quantity,
       };
       console.log(`getProductById: Successfully fetched and mapped product ${id}:`, mappedProduct);
       return { data: mappedProduct, error: null };

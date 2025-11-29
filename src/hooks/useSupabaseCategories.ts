@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 export interface Category {
   id: string;
   name: string;
+  image_url?: string;
+  description?: string;
   created_at: string;
   updated_at: string;
 }
@@ -56,17 +58,21 @@ export const useSupabaseCategories = () => {
     }
   }, [authLoading, user, isAdmin, fetchCategories]);
 
-  const createCategory = async (name: string) => {
+  const createCategory = async (name: string, imageUrl?: string, description?: string) => {
     if (!user || !isAdmin) return { data: null, error: new Error('Unauthorized') };
     try {
       const { data, error: insertError } = await supabase
         .from('categories')
-        .insert({ name })
+        .insert({
+          name,
+          image_url: imageUrl || '',
+          description: description || ''
+        })
         .select()
         .single();
 
       if (insertError) throw insertError;
-      await fetchCategories(); // Re-fetch to update state
+      await fetchCategories();
       return { data, error: null };
     } catch (err: any) {
       console.error('Error creating category:', err.message);
@@ -74,18 +80,22 @@ export const useSupabaseCategories = () => {
     }
   };
 
-  const updateCategory = async (id: string, name: string) => {
+  const updateCategory = async (id: string, name: string, imageUrl?: string, description?: string) => {
     if (!user || !isAdmin) return { data: null, error: new Error('Unauthorized') };
     try {
       const { data, error: updateError } = await supabase
         .from('categories')
-        .update({ name })
+        .update({
+          name,
+          image_url: imageUrl || '',
+          description: description || ''
+        })
         .eq('id', id)
         .select()
         .single();
 
       if (updateError) throw updateError;
-      await fetchCategories(); // Re-fetch to update state
+      await fetchCategories();
       return { data, error: null };
     } catch (err: any) {
       console.error('Error updating category:', err.message);

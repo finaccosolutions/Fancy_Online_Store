@@ -11,6 +11,8 @@ import ConfirmationModal from '../../components/ConfirmationModal'; // NEW: Impo
 
 interface CategoryForm {
   name: string;
+  image_url: string;
+  description: string;
 }
 
 const AdminCategories: React.FC = () => {
@@ -39,9 +41,17 @@ const AdminCategories: React.FC = () => {
   const openModal = (category?: Category) => {
     setEditingCategory(category || null);
     if (category) {
-      reset({ name: category.name });
+      reset({
+        name: category.name,
+        image_url: category.image_url || '',
+        description: category.description || ''
+      });
     } else {
-      reset({ name: '' });
+      reset({
+        name: '',
+        image_url: '',
+        description: ''
+      });
     }
     setIsModalOpen(true);
   };
@@ -57,9 +67,9 @@ const AdminCategories: React.FC = () => {
     let result;
 
     if (editingCategory) {
-      result = await updateCategory(editingCategory.id, data.name);
+      result = await updateCategory(editingCategory.id, data.name, data.image_url, data.description);
     } else {
-      result = await createCategory(data.name);
+      result = await createCategory(data.name, data.image_url, data.description);
     }
 
     if (result.error) {
@@ -158,28 +168,40 @@ const AdminCategories: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="bg-admin-sidebar rounded-lg p-5 shadow-md flex items-center justify-between"
+                className="bg-admin-sidebar rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
               >
-                <div>
+                {category.image_url && (
+                  <img
+                    src={category.image_url}
+                    alt={category.name}
+                    className="w-full h-32 object-cover"
+                  />
+                )}
+                <div className="p-5">
                   <p className="text-lg font-semibold text-admin-text">{category.name}</p>
-                  <p className="text-sm text-admin-text-light">ID: {category.id.substring(0, 8)}...</p>
-                </div>
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => openModal(category)}
-                    className="p-2 bg-admin-primary/20 text-admin-primary rounded-full hover:bg-admin-primary/30 transition-colors"
-                    title="Edit Category"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(category.id, category.name)} // MODIFIED: Pass category name
-                    className="p-2 bg-admin-danger/20 text-admin-danger rounded-full hover:bg-admin-danger/30 transition-colors"
-                    title="Delete Category"
-                    disabled={isLoading}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                  {category.description && (
+                    <p className="text-sm text-admin-text-light mt-1 line-clamp-2">{category.description}</p>
+                  )}
+                  <p className="text-xs text-admin-text-light mt-2">ID: {category.id.substring(0, 8)}...</p>
+                  <div className="flex space-x-2 mt-4">
+                    <button
+                      onClick={() => openModal(category)}
+                      className="flex-1 p-2 bg-admin-primary/20 text-admin-primary rounded hover:bg-admin-primary/30 transition-colors text-sm font-medium"
+                      title="Edit Category"
+                    >
+                      <Edit className="h-4 w-4 inline mr-1" />
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(category.id, category.name)}
+                      className="flex-1 p-2 bg-admin-danger/20 text-admin-danger rounded hover:bg-admin-danger/30 transition-colors text-sm font-medium"
+                      title="Delete Category"
+                      disabled={isLoading}
+                    >
+                      <Trash2 className="h-4 w-4 inline mr-1" />
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -226,6 +248,35 @@ const AdminCategories: React.FC = () => {
                   />
                   {errors.name && (
                     <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-admin-text-dark mb-2">
+                    Category Image URL
+                  </label>
+                  <input
+                    {...register('image_url')}
+                    className="w-full p-3 border border-admin-border rounded-lg bg-admin-sidebar text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent"
+                    placeholder="https://example.com/image.jpg"
+                  />
+                  {errors.image_url && (
+                    <p className="text-red-500 text-sm mt-1">{errors.image_url.message}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-admin-text-dark mb-2">
+                    Description
+                  </label>
+                  <textarea
+                    {...register('description')}
+                    className="w-full p-3 border border-admin-border rounded-lg bg-admin-sidebar text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent"
+                    placeholder="Category description"
+                    rows={3}
+                  />
+                  {errors.description && (
+                    <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
                   )}
                 </div>
 
