@@ -66,7 +66,7 @@ const EmailVerified: React.FC = () => {
         >
           <p className="text-sm text-gray-600">
             Redirecting to sign in page in{' '}
-            <span className="text-2xl font-bold text-[#815536]">{countdown}</span>{' '}
+            <span className="text-2xl font-bold text-blue-600">{countdown}</span>{' '}
             seconds...
           </p>
         </motion.div>
@@ -75,7 +75,7 @@ const EmailVerified: React.FC = () => {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => navigate('/login')}
-          className="w-full bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white py-3 px-6 rounded-lg font-semibold hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200"
+          className="w-full bg-gradient-to-r from-blue-600 to-yellow-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-yellow-600 transition-all duration-200"
         >
           Sign In Now
         </motion.button>

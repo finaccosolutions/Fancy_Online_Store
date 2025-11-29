@@ -30,7 +30,7 @@ const Contact: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#815536] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading contact information...</p>
         </div>
       </div>
@@ -40,7 +40,7 @@ const Contact: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#815536] via-[#a67c52] to-[#c9baa8] overflow-hidden">
+      <section className="relative bg-gradient-to-br from-blue-600 via-[#a67c52] to-yellow-500 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <motion.div
@@ -52,7 +52,7 @@ const Contact: React.FC = () => {
             <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
               Get in Touch
             </h1>
-            <p className="text-xl text-[#c9baa8] max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-yellow-400 max-w-3xl mx-auto leading-relaxed">
               {settings.contactHeroSubtitle || 'Have questions about our fragrances? Need personalized recommendations? We\'re here to help you find your perfect scent.'}
             </p>
           </motion.div>
@@ -122,7 +122,7 @@ const Contact: React.FC = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow duration-300"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-[#815536] to-[#c9baa8] rounded-full mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-yellow-500 rounded-full mb-4">
                   <contact.icon className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{contact.title}</h3>
@@ -166,7 +166,7 @@ const Contact: React.FC = () => {
                   </label>
                   <input
                     {...register('name', { required: 'Name is required' })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="Enter your full name"
                   />
                   {errors.name && (
@@ -187,7 +187,7 @@ const Contact: React.FC = () => {
                         message: 'Invalid email address'
                       }
                     })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="Enter your email"
                   />
                   {errors.email && (
@@ -203,7 +203,7 @@ const Contact: React.FC = () => {
                   </label>
                   <input
                     {...register('phone')}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="Enter your phone number"
                   />
                 </div>
@@ -214,7 +214,7 @@ const Contact: React.FC = () => {
                   </label>
                   <select
                     {...register('subject', { required: 'Subject is required' })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   >
                     <option value="">Select a subject</option>
                     <option value="product-inquiry">Product Inquiry</option>
@@ -237,7 +237,7 @@ const Contact: React.FC = () => {
                 <textarea
                   {...register('message', { required: 'Message is required' })}
                   rows={6}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   placeholder="Tell us how we can help you..."
                 />
                 {errors.message && (
@@ -249,7 +249,7 @@ const Contact: React.FC = () => {
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white py-4 px-6 rounded-lg font-semibold hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200 flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-blue-600 to-yellow-500 text-white py-4 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-yellow-600 transition-all duration-200 flex items-center justify-center space-x-2"
               >
                 <Send className="h-5 w-5" />
                 <span>Send Message</span>
@@ -305,7 +305,7 @@ const Contact: React.FC = () => {
                 className="bg-gray-50 rounded-xl p-6"
               >
                 <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                  <MessageCircle className="h-5 w-5 text-[#815536] mr-2" />
+                  <MessageCircle className="h-5 w-5 text-blue-600 mr-2" />
                   {faq.question}
                 </h3>
                 <p className="text-gray-700 leading-relaxed">{faq.answer}</p>

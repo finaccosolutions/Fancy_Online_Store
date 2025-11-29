@@ -87,7 +87,7 @@ const Profile: React.FC = () => {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-16">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#815536] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <p className="text-gray-600">Loading profile...</p>
           </div>
         </div>
@@ -104,14 +104,14 @@ const Profile: React.FC = () => {
           className="bg-white rounded-2xl shadow-lg overflow-hidden"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-[#815536] to-[#c9baa8] px-8 py-12">
+          <div className="bg-gradient-to-r from-blue-600 to-yellow-500 px-8 py-12">
             <div className="flex items-center space-x-6">
               <div className="bg-white p-4 rounded-full">
-                <User className="h-12 w-12 text-[#815536]" />
+                <User className="h-12 w-12 text-blue-600" />
               </div>
               <div>
                 <h1 className="text-3xl font-bold text-white">{userProfile.full_name}</h1>
-                <p className="text-[#c9baa8] text-lg">{userProfile.email}</p>
+                <p className="text-yellow-400 text-lg">{userProfile.email}</p>
                 {isAdmin && ( // USE isAdmin here
                   <span className="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mt-2">
                     Administrator
@@ -142,14 +142,14 @@ const Profile: React.FC = () => {
               <Link to="/orders">
                 <motion.div
                   whileHover={{ scale: 1.02 }}
-                  className="bg-gradient-to-br from-[#815536]/10 to-[#c9baa8]/10 p-6 rounded-xl border border-[#815536]/20 cursor-pointer"
+                  className="bg-gradient-to-br from-blue-600/10 to-yellow-500/10 p-6 rounded-xl border border-blue-600/20 cursor-pointer"
                 >
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-gray-600 mb-1">Total Orders</p>
-                      <p className="text-3xl font-bold text-[#815536]">{stats.ordersCount}</p>
+                      <p className="text-3xl font-bold text-blue-600">{stats.ordersCount}</p>
                     </div>
-                    <ShoppingBag className="h-10 w-10 text-[#815536]/50" />
+                    <ShoppingBag className="h-10 w-10 text-blue-600/50" />
                   </div>
                 </motion.div>
               </Link>
@@ -190,7 +190,7 @@ const Profile: React.FC = () => {
               {!isEditing && (
                 <button
                   onClick={handleEdit}
-                  className="flex items-center space-x-2 px-4 py-2 bg-[#815536] text-white rounded-lg hover:bg-[#6d4429] transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-[#6d4429] transition-colors"
                 >
                   <Edit className="h-4 w-4" />
                   <span>Edit Profile</span>
@@ -207,7 +207,7 @@ const Profile: React.FC = () => {
                     </label>
                     <input
                       {...register('full_name', { required: 'Full name is required' })}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                       placeholder="Enter your full name"
                     />
                     {errors.full_name && (
@@ -221,7 +221,7 @@ const Profile: React.FC = () => {
                     </label>
                     <input
                       {...register('phone')}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                       placeholder="Enter your phone number"
                     />
                   </div>
@@ -243,7 +243,7 @@ const Profile: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="flex items-center space-x-2 px-6 py-3 bg-[#815536] text-white rounded-lg hover:bg-[#6d4429] transition-colors disabled:opacity-50"
+                    className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-[#6d4429] transition-colors disabled:opacity-50"
                   >
                     <Save className="h-4 w-4" />
                     <span>{isLoading ? 'Saving...' : 'Save Changes'}</span>
@@ -262,7 +262,7 @@ const Profile: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-6">
                   <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                    <User className="h-6 w-6 text-[#815536]" />
+                    <User className="h-6 w-6 text-blue-600" />
                     <div>
                       <p className="text-sm font-medium text-gray-600">Full Name</p>
                       <p className="text-lg text-gray-900">{userProfile.full_name}</p>
@@ -270,7 +270,7 @@ const Profile: React.FC = () => {
                   </div>
 
                   <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                    <Mail className="h-6 w-6 text-[#815536]" />
+                    <Mail className="h-6 w-6 text-blue-600" />
                     <div>
                       <p className="text-sm font-medium text-gray-600">Email Address</p>
                       <p className="text-lg text-gray-900">{userProfile.email}</p>
@@ -280,7 +280,7 @@ const Profile: React.FC = () => {
 
                 <div className="space-y-6">
                   <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                    <Phone className="h-6 w-6 text-[#815536]" />
+                    <Phone className="h-6 w-6 text-blue-600" />
                     <div>
                       <p className="text-sm font-medium text-gray-600">Phone Number</p>
                       <p className="text-lg text-gray-900">{userProfile.phone || 'Not provided'}</p>
@@ -288,7 +288,7 @@ const Profile: React.FC = () => {
                   </div>
 
                   <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                    <MapPin className="h-6 w-6 text-[#815536]" />
+                    <MapPin className="h-6 w-6 text-blue-600" />
                     <div>
                       <p className="text-sm font-medium text-gray-600">Account Type</p>
                       <p className="text-lg text-gray-900">
@@ -298,7 +298,7 @@ const Profile: React.FC = () => {
                   </div>
 
                   <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                    <Calendar className="h-6 w-6 text-[#815536]" />
+                    <Calendar className="h-6 w-6 text-blue-600" />
                     <div>
                       <p className="text-sm font-medium text-gray-600">Member Since</p>
                       <p className="text-lg text-gray-900">
@@ -319,7 +319,7 @@ const Profile: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                   >
-                    <Package className="h-5 w-5 text-[#815536]" />
+                    <Package className="h-5 w-5 text-blue-600" />
                     <span className="text-gray-700 font-medium">View My Orders</span>
                   </motion.div>
                 </Link>
@@ -328,7 +328,7 @@ const Profile: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                   >
-                    <Heart className="h-5 w-5 text-[#815536]" />
+                    <Heart className="h-5 w-5 text-blue-600" />
                     <span className="text-gray-700 font-medium">Manage Wishlist</span>
                   </motion.div>
                 </Link>
@@ -337,7 +337,7 @@ const Profile: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                   >
-                    <MapPin className="h-5 w-5 text-[#815536]" />
+                    <MapPin className="h-5 w-5 text-blue-600" />
                     <span className="text-gray-700 font-medium">Manage Addresses</span>
                   </motion.div>
                 </Link>
@@ -346,7 +346,7 @@ const Profile: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                   >
-                    <ShoppingBag className="h-5 w-5 text-[#815536]" />
+                    <ShoppingBag className="h-5 w-5 text-blue-600" />
                     <span className="text-gray-700 font-medium">Continue Shopping</span>
                   </motion.div>
                 </Link>

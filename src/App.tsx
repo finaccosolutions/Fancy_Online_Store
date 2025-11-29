@@ -33,14 +33,14 @@ import { ToastProvider } from './context/ToastContext';
 import ScrollToTop from './components/ScrollToTop';
 import EmailVerified from './pages/EmailVerified';
 import ThemeProvider from './components/ThemeProvider';
+import { useTheme } from './hooks/useTheme';
 
+function AppContent() {
+  useTheme();
 
-function App() {
   return (
     <Router>
       <ScrollToTop />
-      <ToastProvider>
-        <ThemeProvider>
           <Routes>
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>
@@ -125,9 +125,17 @@ function App() {
               </div>
             } />
           </Routes>
-        </ThemeProvider>
-      </ToastProvider>
     </Router>
+  );
+}
+
+function App() {
+  return (
+    <ToastProvider>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+    </ToastProvider>
   );
 }
 

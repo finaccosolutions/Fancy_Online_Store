@@ -312,7 +312,7 @@ const Orders: React.FC = () => {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-16">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#815536] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <p className="text-gray-600">Loading orders...</p>
           </div>
         </div>
@@ -336,7 +336,7 @@ const Orders: React.FC = () => {
             </p>
             <Link
               to="/products"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white font-semibold rounded-lg hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-yellow-500 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-yellow-600 transition-all duration-200"
             >
               Start Shopping
             </Link>
@@ -371,8 +371,8 @@ const Orders: React.FC = () => {
                 onClick={() => setStatusFilter(filter.value)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   statusFilter === filter.value
-                    ? 'bg-[#815536] text-white shadow-md'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:border-[#815536] hover:text-[#815536]'
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'bg-white text-gray-700 border border-gray-300 hover:border-blue-600 hover:text-blue-600'
                 }`}
               >
                 {filter.label} ({statusCounts[filter.value as keyof typeof statusCounts]})
@@ -393,7 +393,7 @@ const Orders: React.FC = () => {
               <div className="p-6">
                 <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
                   <div className="flex items-center space-x-4">
-                    <div className="bg-[#815536] p-3 rounded-lg">
+                    <div className="bg-blue-600 p-3 rounded-lg">
                       {getStatusIcon(order.status)}
                     </div>
                     <div>
@@ -434,14 +434,14 @@ const Orders: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <DollarSign className="h-5 w-5 text-[#815536]" />
+                    <DollarSign className="h-5 w-5 text-blue-600" />
                     <div>
                       <p className="text-xs text-gray-600">Total Amount</p>
                       <p className="font-semibold text-gray-900">₹{order.total_amount.toLocaleString()}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <Calendar className="h-5 w-5 text-[#815536]" />
+                    <Calendar className="h-5 w-5 text-blue-600" />
                     <div>
                       <p className="text-xs text-gray-600">Payment Method</p>
                       <p className="font-semibold text-gray-900">
@@ -450,7 +450,7 @@ const Orders: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <MapPin className="h-5 w-5 text-[#815536]" />
+                    <MapPin className="h-5 w-5 text-blue-600" />
                     <div>
                       <p className="text-xs text-gray-600">Payment Status</p>
                       <p className="font-semibold text-gray-900">
@@ -468,7 +468,7 @@ const Orders: React.FC = () => {
                       className="flex items-center justify-between w-full p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                       <div className="flex items-center space-x-2">
-                        <Truck className="h-5 w-5 text-[#815536]" />
+                        <Truck className="h-5 w-5 text-blue-600" />
                         <span className="font-medium text-gray-900">Track Order</span>
                       </div>
                       {trackingExpanded === order.id ? (
@@ -484,11 +484,11 @@ const Orders: React.FC = () => {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="mt-4 pl-4 border-l-2 border-[#815536]"
+                          className="mt-4 pl-4 border-l-2 border-blue-600"
                         >
                           {[...order.order_tracking].reverse().map((tracking, idx) => (
                             <div key={tracking.id} className="mb-4 pl-4 relative">
-                              <div className="absolute -left-6 top-1 w-4 h-4 bg-[#815536] rounded-full border-4 border-white"></div>
+                              <div className="absolute -left-6 top-1 w-4 h-4 bg-blue-600 rounded-full border-4 border-white"></div>
                               <div className="text-sm">
                                 <p className="font-semibold text-gray-900">{tracking.description}</p>
                                 {tracking.location && (
@@ -519,7 +519,7 @@ const Orders: React.FC = () => {
                   {order.status === 'delivered' && (
                     <button
                       onClick={() => handleDownloadInvoice(order)}
-                      className="flex items-center space-x-2 px-4 py-2 border border-[#815536] text-[#815536] rounded-lg hover:bg-[#815536]/10 transition-colors"
+                      className="flex items-center space-x-2 px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600/10 transition-colors"
                     >
                       <Download className="h-4 w-4" />
                       <span>Download Invoice</span>
@@ -538,7 +538,7 @@ const Orders: React.FC = () => {
 
                   <a
                     href="mailto:orders@veloratradings.com"
-                    className="flex items-center space-x-2 px-4 py-2 border border-[#815536] text-[#815536] rounded-lg hover:bg-[#815536]/10 transition-colors"
+                    className="flex items-center space-x-2 px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600/10 transition-colors"
                   >
                     <Mail className="h-4 w-4" />
                     <span>Contact Support</span>
@@ -546,7 +546,7 @@ const Orders: React.FC = () => {
 
                   <a
                     href="tel:+919876543210"
-                    className="flex items-center space-x-2 px-4 py-2 border border-[#815536] text-[#815536] rounded-lg hover:bg-[#815536]/10 transition-colors"
+                    className="flex items-center space-x-2 px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600/10 transition-colors"
                   >
                     <Phone className="h-4 w-4" />
                     <span>Call Us</span>

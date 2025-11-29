@@ -54,7 +54,7 @@ const Login: React.FC = () => {
   }, [authLoading, user, userProfile, isAdmin, navigate]); // ADD isAdmin to dependencies
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#815536] to-[#c9baa8] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-yellow-500 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -63,12 +63,12 @@ const Login: React.FC = () => {
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-6">
-              <div className="bg-gradient-to-r from-[#815536] to-[#c9baa8] p-3 rounded-lg">
+              <div className="bg-gradient-to-r from-blue-600 to-yellow-500 p-3 rounded-lg">
                 <span className="text-white font-bold text-2xl">TB</span>
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-[#815536]">Trendy</h1>
-                <p className="text-sm text-[#c9baa8] -mt-1">Bazar</p>
+                <h1 className="text-3xl font-bold text-blue-600">Trendy</h1>
+                <p className="text-sm text-yellow-400 -mt-1">Bazar</p>
               </div>
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>
@@ -100,7 +100,7 @@ const Login: React.FC = () => {
                         message: 'Invalid email address'
                       }
                     })}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -120,7 +120,7 @@ const Login: React.FC = () => {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     {...register('password', { required: 'Password is required' })}
-                    className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                    className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="Enter your password"
                   />
                   <button
@@ -147,7 +147,7 @@ const Login: React.FC = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-[#815536] focus:ring-[#815536] border-gray-300 rounded"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-600 border-gray-300 rounded"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Remember me
@@ -155,7 +155,7 @@ const Login: React.FC = () => {
               </div>
 
               <div className="text-sm">
-                <Link to="/forgot-password" className="text-[#815536] hover:underline">
+                <Link to="/forgot-password" className="text-blue-600 hover:underline">
                   Forgot your password?
                 </Link>
               </div>
@@ -166,7 +166,7 @@ const Login: React.FC = () => {
               disabled={isSubmitting} // Use local isSubmitting state
               whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
               whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-[#815536] to-[#c9baa8] hover:from-[#6d4429] hover:to-[#b8a494] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#815536] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-yellow-500 hover:from-blue-700 hover:to-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
               {isSubmitting ? 'Signing in...' : 'Sign In'} {/* Use local isSubmitting state */}
             </motion.button>
@@ -174,7 +174,7 @@ const Login: React.FC = () => {
             <div className="text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{' '}
-                <Link to="/register" className="text-[#815536] hover:underline font-medium">
+                <Link to="/register" className="text-blue-600 hover:underline font-medium">
                   Create one now
                 </Link>
               </p>

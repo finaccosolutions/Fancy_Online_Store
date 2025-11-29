@@ -101,7 +101,7 @@ const OrderConfirmation: React.FC = () => {
           {orderId && (
             <div className="mb-6">
               <p className="text-gray-600 mb-2">Your Order ID</p>
-              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white px-6 py-3 rounded-full font-mono text-lg font-semibold">
+              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-yellow-500 text-white px-6 py-3 rounded-full font-mono text-lg font-semibold">
                 <Package className="w-5 h-5" />
                 <span>#{orderId.slice(-8).toUpperCase()}</span>
               </div>
@@ -115,19 +115,19 @@ const OrderConfirmation: React.FC = () => {
             We've sent a confirmation email with your order details and tracking information.
           </p>
 
-          <div className="bg-gradient-to-r from-[#815536]/10 to-[#c9baa8]/10 rounded-2xl p-6 mb-8">
+          <div className="bg-gradient-to-r from-blue-600/10 to-yellow-500/10 rounded-2xl p-6 mb-8">
             <h3 className="font-semibold text-gray-900 mb-3">What's Next?</h3>
             <ul className="text-left space-y-2 text-gray-700">
               <li className="flex items-start space-x-2">
-                <span className="text-[#815536] mt-1">✓</span>
+                <span className="text-blue-600 mt-1">✓</span>
                 <span>Your order is being prepared for shipment</span>
               </li>
               <li className="flex items-start space-x-2">
-                <span className="text-[#815536] mt-1">✓</span>
+                <span className="text-blue-600 mt-1">✓</span>
                 <span>You'll receive tracking details via email</span>
               </li>
               <li className="flex items-start space-x-2">
-                <span className="text-[#815536] mt-1">✓</span>
+                <span className="text-blue-600 mt-1">✓</span>
                 <span>Check your order status in the Orders section</span>
               </li>
             </ul>
@@ -138,7 +138,7 @@ const OrderConfirmation: React.FC = () => {
               onClick={() => navigate('/orders')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white px-8 py-4 rounded-lg font-semibold hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200 shadow-md"
+              className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-yellow-500 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-yellow-600 transition-all duration-200 shadow-md"
             >
               <Package className="w-5 h-5" />
               <span>View Orders</span>
@@ -148,7 +148,7 @@ const OrderConfirmation: React.FC = () => {
               onClick={() => navigate('/')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center space-x-2 bg-white border-2 border-[#815536] text-[#815536] px-8 py-4 rounded-lg font-semibold hover:bg-[#815536] hover:text-white transition-all duration-200"
+              className="inline-flex items-center justify-center space-x-2 bg-white border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-200"
             >
               <span>Continue Shopping</span>
               <ArrowRight className="w-5 h-5" />

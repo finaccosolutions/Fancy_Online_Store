@@ -44,7 +44,7 @@ const Cart: React.FC = () => {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-16">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#815536] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <p className="text-gray-600">Loading cart...</p>
           </div>
         </div>
@@ -68,7 +68,7 @@ const Cart: React.FC = () => {
             </p>
             <Link
               to="/products"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white font-semibold rounded-lg hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200 space-x-2"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-yellow-500 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-yellow-600 transition-all duration-200 space-x-2"
             >
               <span>Continue Shopping</span>
             </Link>
@@ -85,7 +85,7 @@ const Cart: React.FC = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={() => navigate(-1)}
-          className="flex items-center space-x-2 text-gray-600 hover:text-[#815536] mb-8 transition-colors"
+          className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 mb-8 transition-colors"
         >
           <ArrowLeft className="h-5 w-5" />
           <span>Continue Shopping</span>
@@ -210,7 +210,7 @@ const Cart: React.FC = () => {
               </div>
 
               {freeShippingThreshold > 0 && getCartTotal() < freeShippingThreshold && (
-                <div className="bg-[#c9baa8]/20 p-4 rounded-lg mb-6">
+                <div className="bg-yellow-100/40 p-4 rounded-lg mb-6">
                   <p className="text-sm text-[#815536]">
                     Add ₹{(freeShippingThreshold - getCartTotal()).toLocaleString()} more to get free shipping!
                   </p>
@@ -229,7 +229,7 @@ const Cart: React.FC = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => navigate('/checkout')}
-                className="w-full bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white py-4 px-6 rounded-lg font-semibold hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200"
+                className="w-full bg-gradient-to-r from-blue-600 to-yellow-500 text-white py-4 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-yellow-600 transition-all duration-200"
               >
                 Proceed to Checkout
               </motion.button>

@@ -601,7 +601,7 @@ const Checkout: React.FC = () => {
           contact: user ? (userProfile?.phone || '') : guestPhone,
         },
         theme: {
-          color: '#815536',
+          color: 'var(--button-primary-color)',
         },
         modal: {
           ondismiss: function () {
@@ -703,7 +703,7 @@ const Checkout: React.FC = () => {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-16">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#815536] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <p className="text-gray-600">Loading checkout...</p>
           </div>
         </div>
@@ -725,8 +725,8 @@ const Checkout: React.FC = () => {
         onClick={onSelect}
         className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
           isSelected
-            ? 'border-[#815536] bg-[#815536]/5'
-            : 'border-gray-200 hover:border-[#815536]/50'
+            ? 'border-blue-600 bg-blue-600/5'
+            : 'border-gray-200 hover:border-blue-600/50'
         }`}
       >
         <div className="flex items-start justify-between">
@@ -734,7 +734,7 @@ const Checkout: React.FC = () => {
             <div className="flex items-center space-x-2 mb-2">
               <span className="font-semibold text-gray-900">{address.title}</span>
               {address.is_default && (
-                <span className="px-2 py-1 bg-[#815536] text-white text-xs rounded-full">
+                <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded-full">
                   Default
                 </span>
               )}
@@ -778,7 +778,7 @@ const Checkout: React.FC = () => {
           </div>
           <div className="flex items-center space-x-2">
             {isSelected && (
-              <div className="w-6 h-6 bg-[#815536] rounded-full flex items-center justify-center">
+              <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
                 <Check className="h-4 w-4 text-white" />
               </div>
             )}
@@ -790,7 +790,7 @@ const Checkout: React.FC = () => {
                     setEditingAddress(address);
                     setShowAddressForm(true);
                   }}
-                  className="p-2 text-gray-600 hover:text-[#815536] hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-colors"
                 >
                   <Edit2 className="h-4 w-4" />
                 </button>
@@ -833,7 +833,7 @@ const Checkout: React.FC = () => {
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center space-x-3">
-                  <MapPin className="h-6 w-6 text-[#815536]" />
+                  <MapPin className="h-6 w-6 text-blue-600" />
                   <h2 className="text-xl font-bold text-gray-900">Delivery Address</h2>
                 </div>
                 {user && (
@@ -844,7 +844,7 @@ const Checkout: React.FC = () => {
                       setEditingAddress(null);
                       setShowAddressForm(true);
                     }}
-                    className="flex items-center space-x-2 px-4 py-2 bg-[#815536] text-white rounded-lg hover:bg-[#6d4429] transition-colors"
+                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-[#6d4429] transition-colors"
                   >
                     <Plus className="h-4 w-4" />
                     <span>Add New</span>
@@ -864,7 +864,7 @@ const Checkout: React.FC = () => {
                           setGuestFullName(e.target.value);
                           setFieldErrors(prev => ({...prev, guestFullName: false}));
                         }}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                           fieldErrors.guestFullName ? 'border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="Enter your full name"
@@ -883,7 +883,7 @@ const Checkout: React.FC = () => {
                           setGuestEmail(e.target.value);
                           setFieldErrors(prev => ({...prev, guestEmail: false}));
                         }}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                           fieldErrors.guestEmail ? 'border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="Enter your email"
@@ -904,7 +904,7 @@ const Checkout: React.FC = () => {
                         setGuestPhone(e.target.value);
                         setFieldErrors(prev => ({...prev, guestPhone: false}));
                       }}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                         fieldErrors.guestPhone ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="Enter your 10-digit phone number"
@@ -923,7 +923,7 @@ const Checkout: React.FC = () => {
                         setGuestAddress({...guestAddress, address_line_1: e.target.value});
                         setFieldErrors(prev => ({...prev, guestAddressLine1: false}));
                       }}
-                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                         fieldErrors.guestAddressLine1 ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="House No., Building, Street, Area"
@@ -945,7 +945,7 @@ const Checkout: React.FC = () => {
                           setGuestAddress({...guestAddress, city: e.target.value});
                           setFieldErrors(prev => ({...prev, guestCity: false}));
                         }}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                           fieldErrors.guestCity ? 'border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="City"
@@ -963,7 +963,7 @@ const Checkout: React.FC = () => {
                           setGuestAddress({...guestAddress, state: e.target.value});
                           setFieldErrors(prev => ({...prev, guestState: false}));
                         }}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                           fieldErrors.guestState ? 'border-red-500' : 'border-gray-300'
                         }`}
                         required
@@ -985,7 +985,7 @@ const Checkout: React.FC = () => {
                           setGuestAddress({...guestAddress, postal_code: e.target.value});
                           setFieldErrors(prev => ({...prev, guestPostalCode: false}));
                         }}
-                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                           fieldErrors.guestPostalCode ? 'border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="6-digit PIN"
@@ -1002,7 +1002,7 @@ const Checkout: React.FC = () => {
                           type="checkbox"
                           checked={guestAddress?.is_gst_registered || false}
                           onChange={(e) => setGuestAddress({...guestAddress, is_gst_registered: e.target.checked})}
-                          className="w-4 h-4 text-[#815536] border-gray-300 rounded focus:ring-[#815536]"
+                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
                         />
                         <label className="ml-2 text-sm font-medium text-gray-700">
                           GST Registered Dealer
@@ -1021,7 +1021,7 @@ const Checkout: React.FC = () => {
                               setGuestAddress({...guestAddress, gstin: e.target.value.toUpperCase()});
                               setFieldErrors(prev => ({...prev, guestGstin: false}));
                             }}
-                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent uppercase ${
+                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent uppercase ${
                               fieldErrors.guestGstin ? 'border-red-500' : 'border-gray-300'
                             }`}
                             placeholder="e.g., 27AAPFU0939F1ZV"
@@ -1040,14 +1040,14 @@ const Checkout: React.FC = () => {
                 </div>
               ) : addressLoading ? (
                 <div className="text-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#815536] mx-auto"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
                 </div>
               ) : addresses.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-gray-600 mb-4">No saved addresses</p>
                   <button
                     onClick={() => setShowAddressForm(true)}
-                    className="text-[#815536] font-semibold hover:underline"
+                    className="text-blue-600 font-semibold hover:underline"
                   >
                     Add your first address
                   </button>
@@ -1072,17 +1072,17 @@ const Checkout: React.FC = () => {
               className="bg-white rounded-2xl shadow-lg p-6"
             >
               <div className="flex items-center space-x-3 mb-6">
-                <MapPin className="h-6 w-6 text-[#815536]" />
+                <MapPin className="h-6 w-6 text-blue-600" />
                 <h2 className="text-xl font-bold text-gray-900">Billing Address</h2>
               </div>
 
               <div className="mb-4">
-                <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all border-[#815536] bg-[#815536]/5">
+                <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all border-blue-600 bg-blue-600/5">
                   <input
                     type="checkbox"
                     checked={billingSameAsDelivery}
                     onChange={(e) => setBillingSameAsDelivery(e.target.checked)}
-                    className="mr-3 text-[#815536] w-4 h-4"
+                    className="mr-3 text-blue-600 w-4 h-4"
                   />
                   <span className="font-medium text-gray-900">Billing address same as delivery address</span>
                 </label>
@@ -1121,7 +1121,7 @@ const Checkout: React.FC = () => {
                             setGuestBillingAddress({...guestBillingAddress, address_line_1: e.target.value});
                             setFieldErrors(prev => ({...prev, guestBillingAddressLine1: false}));
                           }}
-                          className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                          className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                             fieldErrors.guestBillingAddressLine1 ? 'border-red-500' : 'border-gray-300'
                           }`}
                           placeholder="Billing Address"
@@ -1143,7 +1143,7 @@ const Checkout: React.FC = () => {
                               setGuestBillingAddress({...guestBillingAddress, city: e.target.value});
                               setFieldErrors(prev => ({...prev, guestBillingCity: false}));
                             }}
-                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                               fieldErrors.guestBillingCity ? 'border-red-500' : 'border-gray-300'
                             }`}
                             placeholder="City"
@@ -1161,7 +1161,7 @@ const Checkout: React.FC = () => {
                               setGuestBillingAddress({...guestBillingAddress, state: e.target.value});
                               setFieldErrors(prev => ({...prev, guestBillingState: false}));
                             }}
-                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                               fieldErrors.guestBillingState ? 'border-red-500' : 'border-gray-300'
                             }`}
                             required={!billingSameAsDelivery}
@@ -1183,7 +1183,7 @@ const Checkout: React.FC = () => {
                               setGuestBillingAddress({...guestBillingAddress, postal_code: e.target.value});
                               setFieldErrors(prev => ({...prev, guestBillingPostalCode: false}));
                             }}
-                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent ${
+                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent ${
                               fieldErrors.guestBillingPostalCode ? 'border-red-500' : 'border-gray-300'
                             }`}
                             placeholder="6-digit PIN"
@@ -1202,7 +1202,7 @@ const Checkout: React.FC = () => {
                             type="checkbox"
                             checked={guestBillingAddress?.is_gst_registered || false}
                             onChange={(e) => setGuestBillingAddress({...guestBillingAddress, is_gst_registered: e.target.checked})}
-                            className="w-4 h-4 text-[#815536] border-gray-300 rounded focus:ring-[#815536]"
+                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
                           />
                           <label className="ml-2 text-sm font-medium text-gray-700">
                             GST Registered Dealer
@@ -1221,7 +1221,7 @@ const Checkout: React.FC = () => {
                                 setGuestBillingAddress({...guestBillingAddress, gstin: e.target.value.toUpperCase()});
                                 setFieldErrors(prev => ({...prev, guestBillingGstin: false}));
                               }}
-                              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent uppercase ${
+                              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent uppercase ${
                                 fieldErrors.guestBillingGstin ? 'border-red-500' : 'border-gray-300'
                               }`}
                               placeholder="e.g., 27AAPFU0939F1ZV"
@@ -1249,7 +1249,7 @@ const Checkout: React.FC = () => {
               className="bg-white rounded-2xl shadow-lg p-6"
             >
               <div className="flex items-center space-x-3 mb-6">
-                <CreditCard className="h-6 w-6 text-[#815536]" />
+                <CreditCard className="h-6 w-6 text-blue-600" />
                 <h2 className="text-xl font-bold text-gray-900">Payment Method</h2>
               </div>
 
@@ -1257,8 +1257,8 @@ const Checkout: React.FC = () => {
                 <label
                   className={`flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all ${
                     paymentMethod === 'cod'
-                      ? 'border-[#815536] bg-[#815536]/5'
-                      : 'border-gray-200 hover:border-[#815536]/50'
+                      ? 'border-blue-600 bg-blue-600/5'
+                      : 'border-gray-200 hover:border-blue-600/50'
                   }`}
                 >
                   <input
@@ -1266,7 +1266,7 @@ const Checkout: React.FC = () => {
                     value="cod"
                     checked={paymentMethod === 'cod'}
                     onChange={(e) => setPaymentMethod(e.target.value as 'cod')}
-                    className="mr-3 text-[#815536]"
+                    className="mr-3 text-blue-600"
                   />
                   <Truck className="h-5 w-5 text-gray-600 mr-3" />
                   <div>
@@ -1280,8 +1280,8 @@ const Checkout: React.FC = () => {
                     !isRazorpayEnabled
                       ? 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-60'
                       : paymentMethod === 'razorpay'
-                      ? 'border-[#815536] bg-[#815536]/5 cursor-pointer'
-                      : 'border-gray-200 hover:border-[#815536]/50 cursor-pointer'
+                      ? 'border-blue-600 bg-blue-600/5 cursor-pointer'
+                      : 'border-gray-200 hover:border-blue-600/50 cursor-pointer'
                   }`}
                 >
                   <input
@@ -1290,7 +1290,7 @@ const Checkout: React.FC = () => {
                     checked={paymentMethod === 'razorpay'}
                     onChange={(e) => setPaymentMethod(e.target.value as 'razorpay')}
                     disabled={!isRazorpayEnabled}
-                    className="mr-3 text-[#815536] disabled:opacity-50"
+                    className="mr-3 text-blue-600 disabled:opacity-50"
                   />
                   <CreditCard className="h-5 w-5 text-gray-600 mr-3" />
                   <div className="flex-1">
@@ -1357,7 +1357,7 @@ const Checkout: React.FC = () => {
                     <span>₹{Math.round(gstBreakdown.totalTax).toLocaleString()}</span>
                     <button
                       onClick={() => setShowTaxBreakdown(true)}
-                      className="text-[#815536] hover:text-[#6d4429] transition-colors"
+                      className="text-blue-600 hover:text-[#6d4429] transition-colors"
                       title="View tax breakdown"
                     >
                       <Info className="h-4 w-4" />
@@ -1376,7 +1376,7 @@ const Checkout: React.FC = () => {
                 disabled={isProcessing || !canPlaceOrder()}
                 whileHover={{ scale: !isProcessing && canPlaceOrder() ? 1.02 : 1 }}
                 whileTap={{ scale: !isProcessing && canPlaceOrder() ? 0.98 : 1 }}
-                className="w-full bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white py-4 px-6 rounded-lg font-semibold hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-blue-600 to-yellow-500 text-white py-4 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-yellow-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isProcessing
                   ? 'Processing...'
@@ -1533,10 +1533,10 @@ const Checkout: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-r from-[#815536]/10 to-[#c9baa8]/10 rounded-lg p-4">
+                <div className="bg-gradient-to-r from-blue-600/10 to-yellow-500/10 rounded-lg p-4">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-bold text-gray-900">Grand Total</span>
-                    <span className="text-2xl font-bold text-[#815536]">
+                    <span className="text-2xl font-bold text-blue-600">
                       ₹{Math.round(gstBreakdown.total).toLocaleString()}
                     </span>
                   </div>

@@ -50,7 +50,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#815536] to-[#c9baa8] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-yellow-500 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -59,12 +59,12 @@ const Register: React.FC = () => {
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center space-x-2 mb-6">
-              <div className="bg-gradient-to-r from-[#815536] to-[#c9baa8] p-3 rounded-lg">
+              <div className="bg-gradient-to-r from-blue-600 to-yellow-500 p-3 rounded-lg">
                 <span className="text-white font-bold text-2xl">TB</span>
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-[#815536]">Trendy</h1>
-                <p className="text-sm text-[#c9baa8] -mt-1">Bazar</p>
+                <h1 className="text-3xl font-bold text-blue-600">Trendy</h1>
+                <p className="text-sm text-yellow-400 -mt-1">Bazar</p>
               </div>
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Create Account</h2>
@@ -81,7 +81,7 @@ const Register: React.FC = () => {
             {/* Personal Information */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                <User className="h-5 w-5 mr-2 text-[#815536]" />
+                <User className="h-5 w-5 mr-2 text-blue-600" />
                 Personal Information
               </h3>
               
@@ -92,7 +92,7 @@ const Register: React.FC = () => {
                   </label>
                   <input
                     {...register('name', { required: 'Name is required' })}
-                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="Enter your full name"
                   />
                   {errors.name && (
@@ -110,7 +110,7 @@ const Register: React.FC = () => {
                     </div>
                     <input
                       {...register('phone', { required: 'Phone number is required' })}
-                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                       placeholder="Enter your phone number"
                     />
                   </div>
@@ -137,7 +137,7 @@ const Register: React.FC = () => {
                         message: 'Invalid email address'
                       }
                     })}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -150,7 +150,7 @@ const Register: React.FC = () => {
             {/* Address Information */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                <MapPin className="h-5 w-5 mr-2 text-[#815536]" />
+                <MapPin className="h-5 w-5 mr-2 text-blue-600" />
                 Address Information
               </h3>
 
@@ -160,7 +160,7 @@ const Register: React.FC = () => {
                 </label>
                 <input
                   {...register('address', { required: 'Address is required' })}
-                  className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                  className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   placeholder="Enter your address"
                 />
                 {errors.address && (
@@ -175,7 +175,7 @@ const Register: React.FC = () => {
                   </label>
                   <input
                     {...register('city', { required: 'City is required' })}
-                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="City"
                   />
                   {errors.city && (
@@ -189,7 +189,7 @@ const Register: React.FC = () => {
   </label>
   <select
     {...register('state', { required: 'State is required' })}
-    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent bg-white"
+    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-white"
   >
     <option value="">Select State</option>
     <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -241,7 +241,7 @@ const Register: React.FC = () => {
                   </label>
                   <input
                     {...register('zipCode', { required: 'ZIP code is required' })}
-                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="ZIP Code"
                   />
                   {errors.zipCode && (
@@ -254,7 +254,7 @@ const Register: React.FC = () => {
             {/* Password */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                <Lock className="h-5 w-5 mr-2 text-[#815536]" />
+                <Lock className="h-5 w-5 mr-2 text-blue-600" />
                 Password
               </h3>
 
@@ -273,7 +273,7 @@ const Register: React.FC = () => {
                           message: 'Password must be at least 6 characters'
                         }
                       })}
-                      className="block w-full px-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                      className="block w-full px-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                       placeholder="Create password"
                     />
                     <button
@@ -304,7 +304,7 @@ const Register: React.FC = () => {
                         required: 'Please confirm your password',
                         validate: value => value === password || 'Passwords do not match'
                       })}
-                      className="block w-full px-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#815536] focus:border-transparent"
+                      className="block w-full px-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                       placeholder="Confirm password"
                     />
                     <button
@@ -331,7 +331,7 @@ const Register: React.FC = () => {
               disabled={isLoading}
               whileHover={{ scale: isLoading ? 1 : 1.02 }}
               whileTap={{ scale: isLoading ? 1 : 0.98 }}
-              className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-[#815536] to-[#c9baa8] hover:from-[#6d4429] hover:to-[#b8a494] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#815536] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-yellow-500 hover:from-blue-700 hover:to-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
               {isLoading ? 'Creating Account...' : 'Create Account'}
             </motion.button>
@@ -339,7 +339,7 @@ const Register: React.FC = () => {
             <div className="text-center">
               <p className="text-sm text-gray-600">
                 Already have an account?{' '}
-                <Link to="/login" className="text-[#815536] hover:underline font-medium">
+                <Link to="/login" className="text-blue-600 hover:underline font-medium">
                   Sign in here
                 </Link>
               </p>

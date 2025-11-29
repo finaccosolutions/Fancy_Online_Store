@@ -40,7 +40,7 @@ const Wishlist: React.FC = () => {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-16">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#815536] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <p className="text-gray-600">Loading wishlist...</p>
           </div>
         </div>
@@ -64,7 +64,7 @@ const Wishlist: React.FC = () => {
             </p>
             <Link
               to="/products"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white font-semibold rounded-lg hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200 space-x-2"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-yellow-500 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-yellow-600 transition-all duration-200 space-x-2"
             >
               <span>Discover Products</span>
             </Link>
@@ -82,7 +82,7 @@ const Wishlist: React.FC = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={() => navigate(-1)}
-          className="flex items-center space-x-2 text-gray-600 hover:text-[#815536] mb-8 transition-colors"
+          className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 mb-8 transition-colors"
         >
           <ArrowLeft className="h-5 w-5" />
           <span>Continue Shopping</span>
@@ -113,7 +113,7 @@ const Wishlist: React.FC = () => {
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-900">{item.product.name}</h3>
                   <p className="text-gray-600 text-sm">{item.product.category_name}</p> {/* MODIFIED: Use category_name */}
-                  <p className="font-bold text-[#815536] mt-1">₹{item.product.price}</p>
+                  <p className="font-bold text-blue-600 mt-1">₹{item.product.price}</p>
                 </div>
 
                 <div className="flex space-x-2">
@@ -121,7 +121,7 @@ const Wishlist: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleMoveToCart(item.product.id, item.id)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white font-semibold rounded-lg hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200"
+                    className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-yellow-500 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-yellow-600 transition-all duration-200"
                   >
                     <ShoppingCart className="h-4 w-4" />
                     <span>Move to Cart</span>

@@ -81,7 +81,7 @@ const Addresses: React.FC = () => {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-16">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#815536] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <p className="text-gray-600">Loading addresses...</p>
           </div>
         </div>
@@ -106,7 +106,7 @@ const Addresses: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleAddNew}
-              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white font-semibold rounded-lg hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200"
+              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-yellow-500 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-yellow-600 transition-all duration-200"
             >
               <Plus className="h-5 w-5" />
               <span>Add New Address</span>
@@ -125,7 +125,7 @@ const Addresses: React.FC = () => {
             <p className="text-gray-600 mb-8">Add your delivery address to get started</p>
             <button
               onClick={handleAddNew}
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white font-semibold rounded-lg hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-yellow-500 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-yellow-600 transition-all duration-200"
             >
               <Plus className="h-5 w-5 mr-2" />
               Add Your First Address
@@ -140,19 +140,19 @@ const Addresses: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 className={`bg-white rounded-2xl shadow-lg overflow-hidden ${
-                  address.is_default ? 'ring-2 ring-[#815536]' : ''
+                  address.is_default ? 'ring-2 ring-blue-600' : ''
                 }`}
               >
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center space-x-3">
-                      <div className="bg-[#815536]/10 p-2 rounded-lg">
-                        <MapPin className="h-5 w-5 text-[#815536]" />
+                      <div className="bg-blue-600/10 p-2 rounded-lg">
+                        <MapPin className="h-5 w-5 text-blue-600" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900">{address.title}</h3>
                         {address.is_default && (
-                          <span className="inline-flex items-center space-x-1 text-xs text-[#815536] font-medium">
+                          <span className="inline-flex items-center space-x-1 text-xs text-blue-600 font-medium">
                             <Check className="h-3 w-3" />
                             <span>Default Address</span>
                           </span>
@@ -176,7 +176,7 @@ const Addresses: React.FC = () => {
                     {!address.is_default && (
                       <button
                         onClick={() => handleSetDefault(address.id)}
-                        className="flex-1 px-4 py-2 text-sm text-[#815536] border border-[#815536] rounded-lg hover:bg-[#815536]/10 transition-colors"
+                        className="flex-1 px-4 py-2 text-sm text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-600/10 transition-colors"
                       >
                         Set as Default
                       </button>

@@ -111,7 +111,7 @@ const ProductDetail: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h2>
           <button
             onClick={() => navigate('/products')}
-            className="text-[#815536] hover:underline"
+            className="text-blue-600 hover:underline"
           >
             Return to Products
           </button>
@@ -128,7 +128,7 @@ const ProductDetail: React.FC = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={() => navigate(-1)}
-          className="flex items-center space-x-2 text-gray-600 hover:text-[#815536] mb-8 transition-colors"
+          className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 mb-8 transition-colors"
         >
           <ArrowLeft className="h-5 w-5" />
           <span>Back to Products</span>
@@ -149,7 +149,7 @@ const ProductDetail: React.FC = () => {
                 className="w-full h-96 lg:h-full object-cover"
               />
               {product.original_price && (
-                <div className="absolute top-6 left-6 bg-[#815536] text-white px-3 py-1 rounded-lg text-sm font-semibold">
+                <div className="absolute top-6 left-6 bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-semibold">
                   {Math.round(((product.original_price - product.price) / product.original_price) * 100)}% OFF
                 </div>
               )}
@@ -179,11 +179,11 @@ const ProductDetail: React.FC = () => {
               </h1>
 
               <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-4 sm:mb-6">
-                <span className="text-2xl sm:text-3xl font-bold text-[#815536]">₹{product.price}</span>
+                <span className="text-2xl sm:text-3xl font-bold text-blue-600">₹{product.price}</span>
                 {product.original_price && (
                   <span className="text-lg sm:text-xl text-gray-400 line-through">₹{product.original_price}</span>
                 )}
-                <span className="bg-[#c9baa8]/20 text-[#815536] px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+                <span className="bg-yellow-100/40 text-blue-600 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
                   {product.category_name} {/* Display category_name */}
                 </span>
               </div>
@@ -215,7 +215,7 @@ const ProductDetail: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleAddToCart}
-                    className="flex-1 bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white py-2.5 sm:py-4 px-3 sm:px-6 rounded-lg text-sm sm:text-base font-semibold hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200 flex items-center justify-center space-x-1 sm:space-x-2 border-2 border-[#815536]"
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-yellow-500 text-white py-2.5 sm:py-4 px-3 sm:px-6 rounded-lg text-sm sm:text-base font-semibold hover:from-blue-700 hover:to-yellow-600 transition-all duration-200 flex items-center justify-center space-x-1 sm:space-x-2 border-2 border-blue-600"
                   >
                     <span>Add to Cart</span>
                   </motion.button>
@@ -225,7 +225,7 @@ const ProductDetail: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleBuyNow}
-                    className="flex-1 border-2 border-[#815536] text-[#815536] py-2.5 sm:py-4 px-3 sm:px-6 rounded-lg text-sm sm:text-base font-semibold hover:bg-[#815536] hover:text-white transition-all duration-200 flex items-center justify-center space-x-1 sm:space-x-2"
+                    className="flex-1 border-2 border-blue-600 text-blue-600 py-2.5 sm:py-4 px-3 sm:px-6 rounded-lg text-sm sm:text-base font-semibold hover:bg-blue-600 hover:text-white transition-all duration-200 flex items-center justify-center space-x-1 sm:space-x-2"
                   >
                     <span>Buy Now</span>
                   </motion.button>
@@ -242,15 +242,15 @@ const ProductDetail: React.FC = () => {
               {/* Features */}
               <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6 sm:mb-8">
                 <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-                  <Shield className="h-4 w-4 sm:h-6 sm:w-6 text-[#815536] mx-auto mb-1 sm:mb-2" />
+                  <Shield className="h-4 w-4 sm:h-6 sm:w-6 text-blue-600 mx-auto mb-1 sm:mb-2" />
                   <p className="text-xs sm:text-sm text-gray-600">Authentic</p>
                 </div>
                 <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-                  <Truck className="h-4 w-4 sm:h-6 sm:w-6 text-[#815536] mx-auto mb-1 sm:mb-2" />
+                  <Truck className="h-4 w-4 sm:h-6 sm:w-6 text-blue-600 mx-auto mb-1 sm:mb-2" />
                   <p className="text-xs sm:text-sm text-gray-600">Free Shipping</p>
                 </div>
                 <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-                  <RotateCcw className="h-4 w-4 sm:h-6 sm:w-6 text-[#815536] mx-auto mb-1 sm:mb-2" />
+                  <RotateCcw className="h-4 w-4 sm:h-6 sm:w-6 text-blue-600 mx-auto mb-1 sm:mb-2" />
                   <p className="text-xs sm:text-sm text-gray-600">Easy Returns</p>
                 </div>
               </div>
@@ -270,7 +270,7 @@ const ProductDetail: React.FC = () => {
                   onClick={() => setActiveTab(tab.key as any)}
                   className={`px-4 sm:px-6 py-3 sm:py-4 font-medium transition-colors text-sm sm:text-base whitespace-nowrap ${
                     activeTab === tab.key
-                      ? 'border-b-2 border-[#815536] text-[#815536]'
+                      ? 'border-b-2 border-blue-600 text-blue-600'
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
@@ -294,7 +294,7 @@ const ProductDetail: React.FC = () => {
                         {product.ingredients.map((ingredient, index) => (
                           <span
                             key={index}
-                            className="bg-[#c9baa8]/20 text-[#815536] px-3 py-1 rounded-full text-sm"
+                            className="bg-yellow-100/40 text-blue-600 px-3 py-1 rounded-full text-sm"
                           >
                             {ingredient}
                           </span>
@@ -314,7 +314,7 @@ const ProductDetail: React.FC = () => {
                   <ul className="space-y-3">
                     {product.features.map((feature, index) => (
                       <li key={index} className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-[#815536] rounded-full"></div>
+                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
                         <span className="text-gray-700">{feature}</span>
                       </li>
                     ))}

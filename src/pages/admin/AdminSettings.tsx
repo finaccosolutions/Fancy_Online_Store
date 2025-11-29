@@ -133,6 +133,16 @@ interface SiteSettingsForm {
   fontFamily: string;
   fontSize: string;
   headingFontFamily: string;
+  // Theme Colors
+  primaryBgColor: string;
+  primaryTextColor: string;
+  secondaryBgColor: string;
+  accentColor: string;
+  buttonPrimaryColor: string;
+  buttonHoverColor: string;
+  borderColor: string;
+  footerBgColor: string;
+  headerBgColor: string;
 }
 
 const AdminSettings: React.FC = () => {
@@ -269,6 +279,15 @@ const AdminSettings: React.FC = () => {
         fontFamily: formData.fontFamily || 'system-ui',
         fontSize: formData.fontSize || '16px',
         headingFontFamily: formData.headingFontFamily || 'system-ui',
+        primaryBgColor: formData.primaryBgColor || '#0A8DB0',
+        primaryTextColor: formData.primaryTextColor || '#ffffff',
+        secondaryBgColor: formData.secondaryBgColor || '#f3f4f6',
+        accentColor: formData.accentColor || '#D4AF37',
+        buttonPrimaryColor: formData.buttonPrimaryColor || '#0A8DB0',
+        buttonHoverColor: formData.buttonHoverColor || '#0891b2',
+        borderColor: formData.borderColor || '#e5e7eb',
+        footerBgColor: formData.footerBgColor || '#1e293b',
+        headerBgColor: formData.headerBgColor || '#ffffff',
       });
     }
   }, [settingsLoading, settingsError, settings, reset]);
@@ -496,24 +515,191 @@ const AdminSettings: React.FC = () => {
                     <span>Theme Colors</span>
                   </h2>
                   <p className="text-sm text-admin-text-light mb-6">
-                    Customize your site's color scheme. These colors are currently for reference only. Full theme color customization will apply globally in future updates.
+                    Customize your site's color scheme. These colors will be applied globally across your entire site.
                   </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Primary Color</label>
-                      <input
-                        type="color"
-                        {...register('primaryColor')}
-                        className="w-full h-12 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent"
-                      />
+                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Primary Background Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          {...register('primaryBgColor')}
+                          className="w-14 h-12 border border-admin-border rounded-lg cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          {...register('primaryBgColor')}
+                          className="flex-1 p-3 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent text-sm font-mono"
+                          placeholder="#0A8DB0"
+                        />
+                      </div>
+                      <p className="text-xs text-admin-text-light mt-1">Main background color</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Secondary Color</label>
-                      <input
-                        type="color"
-                        {...register('secondaryColor')}
-                        className="w-full h-12 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent"
-                      />
+                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Primary Text Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          {...register('primaryTextColor')}
+                          className="w-14 h-12 border border-admin-border rounded-lg cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          {...register('primaryTextColor')}
+                          className="flex-1 p-3 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent text-sm font-mono"
+                          placeholder="#ffffff"
+                        />
+                      </div>
+                      <p className="text-xs text-admin-text-light mt-1">Primary text color</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Secondary Background Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          {...register('secondaryBgColor')}
+                          className="w-14 h-12 border border-admin-border rounded-lg cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          {...register('secondaryBgColor')}
+                          className="flex-1 p-3 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent text-sm font-mono"
+                          placeholder="#f3f4f6"
+                        />
+                      </div>
+                      <p className="text-xs text-admin-text-light mt-1">Secondary background</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Accent Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          {...register('accentColor')}
+                          className="w-14 h-12 border border-admin-border rounded-lg cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          {...register('accentColor')}
+                          className="flex-1 p-3 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent text-sm font-mono"
+                          placeholder="#D4AF37"
+                        />
+                      </div>
+                      <p className="text-xs text-admin-text-light mt-1">Highlight/accent color</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Button Primary Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          {...register('buttonPrimaryColor')}
+                          className="w-14 h-12 border border-admin-border rounded-lg cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          {...register('buttonPrimaryColor')}
+                          className="flex-1 p-3 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent text-sm font-mono"
+                          placeholder="#0A8DB0"
+                        />
+                      </div>
+                      <p className="text-xs text-admin-text-light mt-1">Primary button color</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Button Hover Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          {...register('buttonHoverColor')}
+                          className="w-14 h-12 border border-admin-border rounded-lg cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          {...register('buttonHoverColor')}
+                          className="flex-1 p-3 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent text-sm font-mono"
+                          placeholder="#0891b2"
+                        />
+                      </div>
+                      <p className="text-xs text-admin-text-light mt-1">Button hover state</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Border Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          {...register('borderColor')}
+                          className="w-14 h-12 border border-admin-border rounded-lg cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          {...register('borderColor')}
+                          className="flex-1 p-3 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent text-sm font-mono"
+                          placeholder="#e5e7eb"
+                        />
+                      </div>
+                      <p className="text-xs text-admin-text-light mt-1">Default border color</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Header Background Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          {...register('headerBgColor')}
+                          className="w-14 h-12 border border-admin-border rounded-lg cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          {...register('headerBgColor')}
+                          className="flex-1 p-3 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent text-sm font-mono"
+                          placeholder="#ffffff"
+                        />
+                      </div>
+                      <p className="text-xs text-admin-text-light mt-1">Header background</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-admin-text-dark mb-2">Footer Background Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          {...register('footerBgColor')}
+                          className="w-14 h-12 border border-admin-border rounded-lg cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          {...register('footerBgColor')}
+                          className="flex-1 p-3 border border-admin-border rounded-lg bg-admin-card text-admin-text focus:ring-2 focus:ring-admin-primary focus:border-transparent text-sm font-mono"
+                          placeholder="#1e293b"
+                        />
+                      </div>
+                      <p className="text-xs text-admin-text-light mt-1">Footer background</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                    <h3 className="font-semibold text-admin-text mb-2">Color Scheme Preview</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="w-16 h-16 rounded-lg border-2 border-admin-border" style={{ backgroundColor: 'var(--primary-bg-color, #0A8DB0)' }}></div>
+                        <p className="text-xs text-admin-text text-center">Primary Bg</p>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="w-16 h-16 rounded-lg border-2 border-admin-border" style={{ backgroundColor: 'var(--accent-color, #D4AF37)' }}></div>
+                        <p className="text-xs text-admin-text text-center">Accent</p>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="w-16 h-16 rounded-lg border-2 border-admin-border" style={{ backgroundColor: 'var(--button-primary-color, #0A8DB0)' }}></div>
+                        <p className="text-xs text-admin-text text-center">Button</p>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="w-16 h-16 rounded-lg border-2 border-admin-border" style={{ backgroundColor: 'var(--secondary-bg-color, #f3f4f6)' }}></div>
+                        <p className="text-xs text-admin-text text-center">Secondary Bg</p>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="w-16 h-16 rounded-lg border-2 border-admin-border" style={{ backgroundColor: 'var(--header-bg-color, #ffffff)' }}></div>
+                        <p className="text-xs text-admin-text text-center">Header</p>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="w-16 h-16 rounded-lg border-2 border-admin-border" style={{ backgroundColor: 'var(--footer-bg-color, #1e293b)' }}></div>
+                        <p className="text-xs text-admin-text text-center">Footer</p>
+                      </div>
                     </div>
                   </div>
                 </div>
