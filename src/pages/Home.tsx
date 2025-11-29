@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, ShoppingBag, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Heart, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useSiteSettings } from '../hooks/useSiteSettings';
@@ -284,7 +284,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Category Groups Section */}
-      <section className="py-16 sm:py-20 bg-white">
+      <section className="py-16 sm:py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -301,7 +301,7 @@ const Home: React.FC = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category, idx) => (
               <motion.div
                 key={category.id}
@@ -312,44 +312,43 @@ const Home: React.FC = () => {
                 onClick={() => navigate(`/products?category=${encodeURIComponent(category.name)}`)}
                 className="group cursor-pointer"
               >
-                <div className="relative h-64 sm:h-72 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300 h-80 sm:h-96">
+                  {/* Category Image or Gradient Background */}
                   {category.image_url ? (
-                    <motion.img
-                      src={category.image_url}
-                      alt={category.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      whileHover={{ scale: 1.1 }}
-                    />
+                    <>
+                      <motion.img
+                        src={category.image_url}
+                        alt={category.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        whileHover={{ scale: 1.1 }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    </>
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-blue-900 to-blue-950 flex items-center justify-center">
-                      <span className="text-white text-4xl font-bold">{category.name.charAt(0)}</span>
+                    <div className="w-full h-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center">
+                      <span className="text-white text-6xl font-bold">{category.name.charAt(0)}</span>
                     </div>
                   )}
 
-                  {/* Overlay - Always Visible Category Name */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#2C3E50]/95 to-transparent/10 flex items-end justify-start p-6">
-                    <div className="text-white">
-                      <h3 className="text-2xl font-bold mb-2">{category.name}</h3>
-                      {category.description && (
-                        <motion.p
-                          initial={{ opacity: 0 }}
-                          whileInView={{ opacity: 1 }}
-                          transition={{ duration: 0.4 }}
-                          className="text-sm text-white/80 line-clamp-2"
-                        >
-                          {category.description}
-                        </motion.p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Decorative Element */}
+                  {/* Yellow Badge - Always Visible */}
                   <motion.div
-                    className="absolute top-4 right-4 bg-yellow-500 text-blue-900 w-12 h-12 rounded-full flex items-center justify-center font-bold shadow-lg group-hover:scale-110 transition-transform"
-                    whileHover={{ scale: 1.2 }}
+                    className="absolute top-4 right-4 bg-yellow-400 text-gray-900 w-14 h-14 rounded-full flex items-center justify-center shadow-lg group-hover:scale-125 group-hover:bg-yellow-300 transition-all"
+                    whileHover={{ scale: 1.2, rotate: 10 }}
                   >
-                    →
+                    <ArrowRight className="h-6 w-6 font-bold" />
                   </motion.div>
+
+                  {/* Category Name - Bottom Left, Large and Clear */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-1 leading-tight drop-shadow-lg">
+                      {category.name}
+                    </h3>
+                    {category.description && (
+                      <p className="text-sm text-white/90 line-clamp-1 drop-shadow-md">
+                        {category.description}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -375,7 +374,7 @@ const Home: React.FC = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {topProducts.map((product, idx) => (
               <motion.div
                 key={product.id}
@@ -383,9 +382,10 @@ const Home: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.05 }}
                 viewport={{ once: true }}
-                className="group cursor-pointer flex flex-col"
+                className="group cursor-pointer flex flex-col h-full bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
               >
-                <div className="relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-48 sm:h-56">
+                {/* Image Section - Top */}
+                <div className="relative h-56 sm:h-64 bg-gray-100 overflow-hidden">
                   <motion.img
                     src={product.image_url}
                     alt={product.name}
@@ -394,43 +394,102 @@ const Home: React.FC = () => {
                     onClick={() => navigate(`/product/${product.id}`)}
                   />
 
-                  {/* Wishlist Button - Top Right Corner */}
+                  {/* Wishlist Button - Top Right */}
                   <motion.button
                     onClick={(e) => handleWishlistToggle(e, product.id, product.name)}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="absolute top-2 right-2 z-10 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300"
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute top-3 right-3 z-10 p-2.5 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                     aria-label={isInWishlist(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
                   >
                     <Heart
-                      className={`h-4 w-4 sm:h-5 sm:w-5 transition-colors duration-200 ${
+                      className={`h-5 w-5 transition-colors duration-200 ${
                         isInWishlist(product.id)
                           ? 'text-red-500 fill-red-500'
-                          : 'text-gray-600'
+                          : 'text-gray-400'
                       }`}
                     />
                   </motion.button>
                 </div>
 
-                {/* Product Details Below Image */}
-                <div className="flex-1 bg-white rounded-b-xl p-3 sm:p-4 flex flex-col gap-2">
+                {/* Content Section - Bottom */}
+                <div className="flex-1 p-4 sm:p-5 flex flex-col gap-3">
+                  {/* Product Name */}
                   <h3
-                    className="text-xs sm:text-sm font-bold text-gray-900 line-clamp-2 hover:text-blue-900 cursor-pointer transition-colors"
+                    className="text-sm sm:text-base font-bold text-gray-900 line-clamp-2 hover:text-blue-900 transition-colors"
                     onClick={() => navigate(`/product/${product.id}`)}
                   >
                     {product.name}
                   </h3>
 
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm sm:text-base font-bold text-yellow-600">
-                      ₹{product.price.toFixed(0)}
-                    </p>
-                    {product.rating > 0 && (
-                      <div className="flex items-center gap-1 bg-yellow-100 px-2 py-1 rounded-full">
-                        <span className="text-xs font-bold text-yellow-700">{product.rating.toFixed(1)}</span>
-                        <span className="text-xs text-yellow-700">★</span>
+                  {/* Rating and Review Count */}
+                  {product.rating > 0 && (
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <span
+                            key={i}
+                            className={`text-sm ${
+                              i < Math.floor(product.rating)
+                                ? 'text-yellow-500'
+                                : 'text-gray-300'
+                            }`}
+                          >
+                            ★
+                          </span>
+                        ))}
                       </div>
+                      <span className="text-xs sm:text-sm font-semibold text-gray-900">
+                        {product.rating.toFixed(1)}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        ({product.reviews_count})
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Pricing */}
+                  <div className="flex items-center gap-2 pt-1">
+                    <span className="text-lg sm:text-xl font-bold text-gray-900">
+                      ₹{product.price.toLocaleString()}
+                    </span>
+                    {product.original_price && product.original_price > product.price && (
+                      <span className="text-xs sm:text-sm text-gray-400 line-through">
+                        ₹{product.original_price.toLocaleString()}
+                      </span>
                     )}
+                  </div>
+
+                  {/* Action Buttons - Icon Only */}
+                  <div className="flex gap-3 pt-3 mt-auto">
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      className="flex-1 flex items-center justify-center p-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+                      aria-label="Add to cart"
+                      title="Add to cart"
+                    >
+                      <ShoppingBag className="h-5 w-5" />
+                    </motion.button>
+
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        navigate(`/product/${product.id}`);
+                      }}
+                      className="flex-1 flex items-center justify-center p-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+                      aria-label="Buy now"
+                      title="Buy now"
+                    >
+                      <Zap className="h-5 w-5" />
+                    </motion.button>
                   </div>
                 </div>
               </motion.div>
@@ -440,7 +499,7 @@ const Home: React.FC = () => {
           <div className="text-center mt-12">
             <Link
               to="/products"
-              className="inline-flex items-center justify-center px-8 py-4 bg-blue-900 text-white font-bold rounded-lg hover:bg-blue-950 transition-all duration-300 shadow-lg hover:shadow-xl group"
+              className="inline-flex items-center justify-center px-8 py-4 bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-500 transition-all duration-300 shadow-lg hover:shadow-xl group"
             >
               View All Products
               <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
