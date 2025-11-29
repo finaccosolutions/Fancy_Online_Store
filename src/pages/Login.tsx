@@ -64,11 +64,11 @@ const Login: React.FC = () => {
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-6">
               <div className="bg-gradient-to-r from-[#815536] to-[#c9baa8] p-3 rounded-lg">
-                <span className="text-white font-bold text-2xl">V</span>
+                <span className="text-white font-bold text-2xl">TB</span>
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-[#815536]">Velora</h1>
-                <p className="text-sm text-[#c9baa8] -mt-1">TRADINGS</p>
+                <h1 className="text-3xl font-bold text-[#815536]">Trendy</h1>
+                <p className="text-sm text-[#c9baa8] -mt-1">Bazar</p>
               </div>
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>

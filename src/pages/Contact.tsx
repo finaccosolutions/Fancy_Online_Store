@@ -80,9 +80,9 @@ const Contact: React.FC = () => {
                 icon: MapPin,
                 title: 'Visit Our Store',
                 details: [
-                  settings.contactAddressLine1 || 'Perinthalmanna',
+                  settings.contactAddressLine1 || 'Manjeri',
                   settings.contactAddressLine2 || 'Kerala',
-                  settings.contactCity || 'Perinthalmanna',
+                  settings.contactCity || 'Manjeri',
                   settings.contactCountry || 'India'
                 ]
               },
@@ -90,17 +90,17 @@ const Contact: React.FC = () => {
                 icon: Phone,
                 title: 'Call Us',
                 details: [
-                  settings.contactPhone1 || '+91 73560 62349',
-                  settings.contactPhone2 || '+91 98765 43211',
+                  settings.contactPhone1 || '+91 85 90000 761',
+                  settings.contactPhone2 || '+91 97 45524 438',
                 ]
               },
               {
                 icon: Mail,
                 title: 'Email Us',
                 details: [
-                  settings.contactEmail1 || 'info@veloratradings.com',
-                  settings.contactEmail2 || 'support@veloratradings.com',
-                  settings.contactEmail3 || 'orders@veloratradings.com',
+                  settings.contactEmail1 || 'info@trendybazar.com',
+                  settings.contactEmail2 || 'support@trendybazar.com',
+                  settings.contactEmail3 || 'orders@trendybazar.com',
                   'We reply within 24 hours'
                 ]
               },

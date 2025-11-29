@@ -31,7 +31,7 @@ const About: React.FC = () => {
             className="text-center"
           >
             <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-              {settings.aboutHeroTitle || 'About Velora Tradings'}
+              {settings.aboutHeroTitle || 'About Trendy Bazar'}
             </h1>
             <p className="text-xl text-[#c9baa8] max-w-3xl mx-auto leading-relaxed">
               {settings.aboutHeroSubtitle || 'Crafting memories through exquisite fragrances since 2020. We believe that every scent tells a story, and every story deserves to be unforgettable.'}
@@ -51,7 +51,7 @@ const About: React.FC = () => {
             >
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                {settings.aboutStoryParagraph1 || 'Founded with a passion for luxury and elegance, Velora Tradings began as a dream to bring the world\'s finest fragrances to discerning customers. Our journey started with a simple belief: that fragrance is not just about smelling good, but about expressing your unique personality and creating lasting impressions.'}
+                {settings.aboutStoryParagraph1 || 'Founded with a passion for luxury and elegance, Trendy Bazar began as a dream to bring the world\'s finest fragrances to discerning customers. Our journey started with a simple belief: that fragrance is not just about smelling good, but about expressing your unique personality and creating lasting impressions.'}
               </p>
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
                 {settings.aboutStoryParagraph2 || 'Today, we curate an exclusive collection of premium perfumes from renowned houses and emerging artisans alike. Each fragrance in our collection is carefully selected for its quality, uniqueness, and ability to evoke emotions and memories.'}
@@ -99,7 +99,7 @@ const About: React.FC = () => {
           >
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Our Values</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              The principles that guide everything we do at Velora Tradings
+              The principles that guide everything we do at Trendy Bazar
             </p>
           </motion.div>
 
@@ -166,7 +166,7 @@ const About: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">Why Choose Velora?</h2>
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">Why Choose Trendy Bazar?</h2>
               <div className="space-y-4">
                 {[
                   settings.aboutWhyChoose1 || 'Authentic products from verified suppliers',

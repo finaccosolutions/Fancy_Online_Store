@@ -538,7 +538,7 @@ const Checkout: React.FC = () => {
         amount: razorpayOrderData.amount,
         currency: razorpayOrderData.currency,
         order_id: razorpayOrderData.order_id,
-        name: settings.business_name || 'Velora Tradings',
+        name: settings.business_name || 'Trendy Bazar',
         description: `Payment for order`,
         handler: async function (response: any) {
           try {
