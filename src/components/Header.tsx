@@ -73,7 +73,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="bg-white shadow-lg sticky top-0 z-50">
+      <header className="bg-blue-900 shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -96,8 +96,8 @@ const Header: React.FC = () => {
                     <span className="text-white font-bold text-xl">TB</span>
                   </motion.div>
                   <div className="group-hover:scale-105 transition-transform duration-200">
-                    <h1 className="text-xl sm:text-2xl font-bold text-brand-blue group-hover:text-blue-900 transition-colors duration-200">{settings.site_name || 'Trendy Bazar'}</h1>
-                    <p className="text-xs text-brand-yellow -mt-1">FASHION & STYLE</p>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white group-hover:text-gray-100 transition-colors duration-200">{settings.site_name || 'Trendy Bazar'}</h1>
+                    <p className="text-xs text-yellow-400 -mt-1">FASHION & STYLE</p>
                   </div>
                 </>
               )}
@@ -111,8 +111,8 @@ const Header: React.FC = () => {
                   to={item.path}
                   className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                     isActivePath(item.path)
-                      ? 'text-brand-blue bg-brand-blue/10'
-                      : 'text-gray-700 hover:text-brand-blue hover:bg-brand-blue/5'
+                      ? 'text-white bg-white/20'
+                      : 'text-gray-100 hover:text-white hover:bg-white/10'
                   }`}
                 >
                   <span className="relative z-10">{item.label}</span>
@@ -140,7 +140,7 @@ const Header: React.FC = () => {
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  className="relative p-3 text-gray-700 hover:text-brand-blue hover:bg-brand-blue/10 rounded-lg transition-all duration-200"
+                  className="relative p-3 text-gray-100 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
                   title="Wishlist"
                 >
                   <Heart className="h-5 w-5" />
@@ -169,7 +169,7 @@ const Header: React.FC = () => {
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  className="relative p-3 text-gray-700 hover:text-brand-blue hover:bg-brand-blue/10 rounded-lg transition-all duration-200"
+                  className="relative p-3 text-gray-100 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
                   title="Shopping Cart"
                 >
                   <ShoppingCart className="h-5 w-5" />
@@ -199,7 +199,7 @@ const Header: React.FC = () => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="relative p-3 text-gray-700 hover:text-brand-blue hover:bg-brand-blue/10 rounded-lg transition-all duration-200 group"
+                  className="relative p-3 text-gray-100 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 group"
                   title={user ? `${userProfile?.full_name || 'User'} Account` : 'Account'}
                 >
                   <User className="h-5 w-5" />
@@ -377,7 +377,7 @@ const Header: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 text-gray-700 hover:text-brand-blue hover:bg-brand-blue/10 rounded-lg transition-all duration-200 flex-shrink-0"
+                className="md:hidden p-2 text-gray-100 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 flex-shrink-0"
                 aria-label="Toggle Menu"
               >
                 {isMenuOpen ? (
