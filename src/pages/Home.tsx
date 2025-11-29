@@ -73,7 +73,7 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full h-[400px] sm:h-[550px] lg:h-[800px] flex items-end justify-center overflow-hidden bg-gradient-to-b from-[#0A8DB0] to-[#086A88]">
+      <section className="relative w-full h-[400px] sm:h-[550px] lg:h-[800px] flex items-end justify-center overflow-hidden bg-gradient-to-b from-blue-900 to-blue-950">
         {/* Hero Image Background */}
         {settings.hero_image_url && (
           <motion.div
@@ -91,7 +91,7 @@ const Home: React.FC = () => {
         )}
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A8DB0]/40 to-[#0A8DB0]/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/40 to-blue-900/80"></div>
 
         {/* Content */}
         <motion.div
@@ -137,7 +137,7 @@ const Home: React.FC = () => {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link
                   to="/products"
-                  className="inline-flex items-center justify-center px-8 sm:px-12 py-4 sm:py-5 bg-[#D4AF37] text-[#2C3E50] font-bold rounded-lg hover:bg-[#E8C752] transition-all duration-300 space-x-2 shadow-lg hover:shadow-2xl"
+                  className="inline-flex items-center justify-center px-8 sm:px-12 py-4 sm:py-5 bg-yellow-500 text-blue-900 font-bold rounded-lg hover:bg-yellow-400 transition-all duration-300 space-x-2 shadow-lg hover:shadow-2xl"
                 >
                   <ShoppingBag className="h-5 w-5" />
                   <span>Shop Now</span>
@@ -200,7 +200,7 @@ const Home: React.FC = () => {
                       whileHover={{ scale: 1.1 }}
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-[#0A8DB0] to-[#086A88] flex items-center justify-center">
+                    <div className="w-full h-full bg-gradient-to-br from-blue-900 to-blue-950 flex items-center justify-center">
                       <span className="text-white text-4xl font-bold">{category.name.charAt(0)}</span>
                     </div>
                   )}
@@ -222,7 +222,7 @@ const Home: React.FC = () => {
 
                   {/* Decorative Element */}
                   <motion.div
-                    className="absolute top-4 right-4 bg-[#D4AF37] text-[#2C3E50] w-12 h-12 rounded-full flex items-center justify-center font-bold shadow-lg group-hover:scale-110 transition-transform"
+                    className="absolute top-4 right-4 bg-yellow-500 text-blue-900 w-12 h-12 rounded-full flex items-center justify-center font-bold shadow-lg group-hover:scale-110 transition-transform"
                     whileHover={{ scale: 1.2 }}
                   >
                     →
@@ -280,7 +280,7 @@ const Home: React.FC = () => {
                   >
                     <div className="self-start">
                       {product.rating > 0 && (
-                        <div className="bg-[#D4AF37] text-[#2C3E50] px-2 py-1 rounded-full text-xs font-bold">
+                        <div className="bg-yellow-500 text-blue-900 px-2 py-1 rounded-full text-xs font-bold">
                           {product.rating.toFixed(1)} ★
                         </div>
                       )}
@@ -289,7 +289,7 @@ const Home: React.FC = () => {
                       <h3 className="text-sm sm:text-base font-bold mb-1 line-clamp-2 group-hover:line-clamp-none">
                         {product.name}
                       </h3>
-                      <p className="text-lg sm:text-xl font-bold text-[#D4AF37]">
+                      <p className="text-lg sm:text-xl font-bold text-yellow-500">
                         ₹{product.price.toFixed(0)}
                       </p>
                     </div>
@@ -302,7 +302,7 @@ const Home: React.FC = () => {
           <div className="text-center mt-12">
             <Link
               to="/products"
-              className="inline-flex items-center justify-center px-8 py-4 bg-[#0A8DB0] text-white font-bold rounded-lg hover:bg-[#086A88] transition-all duration-300 shadow-lg hover:shadow-xl group"
+              className="inline-flex items-center justify-center px-8 py-4 bg-blue-900 text-white font-bold rounded-lg hover:bg-blue-950 transition-all duration-300 shadow-lg hover:shadow-xl group"
             >
               View All Products
               <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -312,7 +312,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-16 sm:py-20 bg-gradient-to-r from-[#0A8DB0] to-[#086A88]">
+      <section className="py-16 sm:py-20 bg-gradient-to-r from-blue-900 to-blue-950">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -330,12 +330,12 @@ const Home: React.FC = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-6 py-4 rounded-lg sm:rounded-r-none border-0 focus:ring-2 focus:ring-[#D4AF37] focus:outline-none"
+                className="flex-1 px-6 py-4 rounded-lg sm:rounded-r-none border-0 focus:ring-2 focus:ring-yellow-500 focus:outline-none"
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-[#D4AF37] text-[#2C3E50] font-semibold rounded-lg sm:rounded-l-none hover:bg-[#E8C752] transition-colors duration-200"
+                className="px-8 py-4 bg-yellow-500 text-blue-900 font-semibold rounded-lg sm:rounded-l-none hover:bg-yellow-400 transition-colors duration-200"
               >
                 Subscribe
               </motion.button>
