@@ -1,14 +1,23 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Filter, Grid, List } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { useSupabaseProducts } from '../hooks/useSupabaseProducts';
 
 const Products: React.FC = () => {
   const { products, categories, loading } = useSupabaseProducts();
+  const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('name');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      setSelectedCategory(decodeURIComponent(categoryParam));
+    }
+  }, [searchParams]);
 
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = selectedCategory === 'All' 
@@ -69,10 +78,10 @@ const Products: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Our Premium Collection</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Shop Trendy Styles</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Explore our curated selection of luxury fragrances, each one carefully chosen 
-            to offer you the finest olfactory experience.
+            Explore our curated selection of premium fashion and accessories, each one carefully chosen
+            to help you discover your unique style.
           </p>
         </motion.div>
 
@@ -88,8 +97,8 @@ const Products: React.FC = () => {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   selectedCategory === category
-                    ? 'bg-[#815536] text-white'
-                    : 'bg-white text-gray-700 hover:bg-[#c9baa8] hover:text-white'
+                    ? 'bg-[#0A8DB0] text-white'
+                    : 'bg-white text-gray-700 hover:bg-[#D4AF37] hover:text-[#2C3E50]'
                 }`}
               >
                 {category}
@@ -104,7 +113,7 @@ const Products: React.FC = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#815536] focus:border-transparent w-full sm:w-auto"
+                className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0A8DB0] focus:border-transparent w-full sm:w-auto"
               >
                 <option value="name">Sort by Name</option>
                 <option value="price-low">Price: Low to High</option>
@@ -116,13 +125,13 @@ const Products: React.FC = () => {
             <div className="flex border border-gray-300 rounded-lg flex-shrink-0">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-2 ${viewMode === 'grid' ? 'bg-[#815536] text-white' : 'text-gray-600'}`}
+                className={`p-2 ${viewMode === 'grid' ? 'bg-[#0A8DB0] text-white' : 'text-gray-600'}`}
               >
                 <Grid className="h-4 w-4" />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-2 ${viewMode === 'list' ? 'bg-[#815536] text-white' : 'text-gray-600'}`}
+                className={`p-2 ${viewMode === 'list' ? 'bg-[#0A8DB0] text-white' : 'text-gray-600'}`}
               >
                 <List className="h-4 w-4" />
               </button>

@@ -1,23 +1,70 @@
-// src/pages/Home.tsx
-import React, { useEffect } from 'react'; // Remove useEffect if not used elsewhere
-import { Link } from 'react-router-dom';
-import { ArrowRight, Star, ShoppingBag, Truck, Shield, HeadphonesIcon } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { motion } from 'framer-motion';
-import FeaturedProducts from '../components/FeaturedProducts';
-import { useAuth } from '../context/AuthContext'; // Import useAuth
-import { supabaseUrl, supabaseAnonKey } from '../lib/supabase'; // Import Supabase config
-import { useSiteSettings } from '../hooks/useSiteSettings'; // NEW: Import useSiteSettings
+import { useAuth } from '../context/AuthContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { supabaseUrl, supabaseAnonKey } from '../lib/supabase';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+interface Category {
+  id: string;
+  name: string;
+  image_url: string;
+  description: string;
+}
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image_url: string;
+  rating: number;
+  sales_count: number;
+  category: string;
+}
 
 const Home: React.FC = () => {
   const { user, session, loading: authLoading } = useAuth();
   const { settings, loading: settingsLoading } = useSiteSettings();
+  const navigate = useNavigate();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [topProducts, setTopProducts] = useState<Product[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
 
-  if (settingsLoading) {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [categoriesRes, productsRes] = await Promise.all([
+          supabase.from('categories').select('*').order('name'),
+          supabase
+            .from('products')
+            .select('*')
+            .eq('in_stock', true)
+            .order('sales_count', { ascending: false })
+            .limit(10)
+        ]);
+
+        if (categoriesRes.data) setCategories(categoriesRes.data);
+        if (productsRes.data) setTopProducts(productsRes.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoadingData(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (settingsLoading || loadingData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#815536] mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading website content...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0A8DB0] mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading trendy styles...</p>
         </div>
       </div>
     );
@@ -26,7 +73,7 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full h-[400px] sm:h-[550px] lg:h-[800px] flex items-end justify-center overflow-hidden bg-black">
+      <section className="relative w-full h-[400px] sm:h-[550px] lg:h-[800px] flex items-end justify-center overflow-hidden bg-gradient-to-b from-[#0A8DB0] to-[#086A88]">
         {/* Hero Image Background */}
         {settings.hero_image_url && (
           <motion.div
@@ -38,15 +85,15 @@ const Home: React.FC = () => {
             <img
               src={settings.hero_image_url}
               alt="Hero Banner"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover opacity-80"
             />
           </motion.div>
         )}
 
-        {/* Overlay - Gradient at bottom for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70"></div>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A8DB0]/40 to-[#0A8DB0]/80"></div>
 
-        {/* Content - Positioned at bottom */}
+        {/* Content */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -54,42 +101,43 @@ const Home: React.FC = () => {
           className="relative z-10 pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 w-full"
         >
           <div className="max-w-7xl mx-auto text-center">
-            {/* Optional Tagline */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-sm sm:text-base font-medium text-white/80 mb-6 tracking-wide uppercase"
+              className="text-sm sm:text-base font-medium text-white/90 mb-6 tracking-wide uppercase"
             >
-              Premium Fragrances Collection
+              Welcome to Trendy Bazar
             </motion.p>
 
-            {/* Main Heading */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5 }}
-              className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 max-w-4xl mx-auto leading-tight"
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-8 max-w-4xl mx-auto leading-tight"
             >
-              Discover Your Signature Scent
+              Discover Your Style
             </motion.h1>
 
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.6 }}
+              className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto"
+            >
+              Premium fashion and accessories curated just for you
+            </motion.p>
 
-
-            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.7 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link
                   to="/products"
-                  className="inline-flex items-center justify-center px-8 sm:px-12 py-4 sm:py-5 bg-white text-[#815536] font-bold rounded-lg hover:bg-gray-100 transition-all duration-300 space-x-2 shadow-lg hover:shadow-2xl"
+                  className="inline-flex items-center justify-center px-8 sm:px-12 py-4 sm:py-5 bg-[#D4AF37] text-[#2C3E50] font-bold rounded-lg hover:bg-[#E8C752] transition-all duration-300 space-x-2 shadow-lg hover:shadow-2xl"
                 >
                   <ShoppingBag className="h-5 w-5" />
                   <span>Shop Now</span>
@@ -104,7 +152,7 @@ const Home: React.FC = () => {
               >
                 <Link
                   to="/about"
-                  className="inline-flex items-center justify-center px-8 sm:px-12 py-4 sm:py-5 border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-[#815536] transition-all duration-300 shadow-lg hover:shadow-2xl"
+                  className="inline-flex items-center justify-center px-8 sm:px-12 py-4 sm:py-5 border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-[#0A8DB0] transition-all duration-300 shadow-lg hover:shadow-2xl"
                 >
                   Learn More
                 </Link>
@@ -112,36 +160,182 @@ const Home: React.FC = () => {
             </motion.div>
           </div>
         </motion.div>
-
       </section>
 
-      {/* Featured Products */}
-      <FeaturedProducts />
+      {/* Category Groups Section */}
+      <section className="py-16 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+              Shop by Category
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore our curated collections across different styles and preferences
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {categories.map((category, idx) => (
+              <motion.div
+                key={category.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                onClick={() => navigate(`/products?category=${encodeURIComponent(category.name)}`)}
+                className="group cursor-pointer"
+              >
+                <div className="relative h-64 sm:h-72 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                  {category.image_url ? (
+                    <motion.img
+                      src={category.image_url}
+                      alt={category.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      whileHover={{ scale: 1.1 }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-[#0A8DB0] to-[#086A88] flex items-center justify-center">
+                      <span className="text-white text-4xl font-bold">{category.name.charAt(0)}</span>
+                    </div>
+                  )}
+
+                  {/* Overlay */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 bg-gradient-to-t from-[#2C3E50]/90 to-transparent flex items-end justify-start p-6"
+                  >
+                    <div className="text-white transform group-hover:translate-y-0 translate-y-2 transition-transform duration-300">
+                      <h3 className="text-2xl font-bold mb-2">{category.name}</h3>
+                      {category.description && (
+                        <p className="text-sm text-white/80 line-clamp-2">{category.description}</p>
+                      )}
+                    </div>
+                  </motion.div>
+
+                  {/* Decorative Element */}
+                  <motion.div
+                    className="absolute top-4 right-4 bg-[#D4AF37] text-[#2C3E50] w-12 h-12 rounded-full flex items-center justify-center font-bold shadow-lg group-hover:scale-110 transition-transform"
+                    whileHover={{ scale: 1.2 }}
+                  >
+                    →
+                  </motion.div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Top Selling Products Section */}
+      <section className="py-16 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+              Top Selling Products
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              The most loved items by our customers
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+            {topProducts.map((product, idx) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.05 }}
+                viewport={{ once: true }}
+                onClick={() => navigate(`/product/${product.id}`)}
+                className="group cursor-pointer"
+              >
+                <div className="relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-64 sm:h-72">
+                  <motion.img
+                    src={product.image_url}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    whileHover={{ scale: 1.1 }}
+                  />
+
+                  {/* Product Overlay */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 bg-gradient-to-t from-[#2C3E50]/95 to-transparent flex flex-col items-end justify-between p-3 sm:p-4"
+                  >
+                    <div className="self-start">
+                      {product.rating > 0 && (
+                        <div className="bg-[#D4AF37] text-[#2C3E50] px-2 py-1 rounded-full text-xs font-bold">
+                          {product.rating.toFixed(1)} ★
+                        </div>
+                      )}
+                    </div>
+                    <div className="w-full text-white">
+                      <h3 className="text-sm sm:text-base font-bold mb-1 line-clamp-2 group-hover:line-clamp-none">
+                        {product.name}
+                      </h3>
+                      <p className="text-lg sm:text-xl font-bold text-[#D4AF37]">
+                        ₹{product.price.toFixed(0)}
+                      </p>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              to="/products"
+              className="inline-flex items-center justify-center px-8 py-4 bg-[#0A8DB0] text-white font-bold rounded-lg hover:bg-[#086A88] transition-all duration-300 shadow-lg hover:shadow-xl group"
+            >
+              View All Products
+              <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Newsletter Section */}
-      <section className="py-20 bg-gradient-to-r from-[#815536] to-[#c9baa8]">
+      <section className="py-16 sm:py-20 bg-gradient-to-r from-[#0A8DB0] to-[#086A88]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-              Stay in the Scent
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Stay Updated with Trendy Bazar
             </h2>
-            <p className="text-xl text-[#c9baa8] mb-8">
-              Subscribe to get updates on new arrivals, exclusive offers, and fragrance tips.
+            <p className="text-xl text-white/80 mb-8">
+              Subscribe to get exclusive deals, new arrivals, and fashion tips delivered to your inbox.
             </p>
             <div className="flex flex-col sm:flex-row max-w-md mx-auto gap-3 sm:gap-0">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-6 py-4 rounded-lg sm:rounded-r-none border-0 focus:ring-2 focus:ring-white/50 focus:outline-none"
+                className="flex-1 px-6 py-4 rounded-lg sm:rounded-r-none border-0 focus:ring-2 focus:ring-[#D4AF37] focus:outline-none"
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white text-[#815536] font-semibold rounded-lg sm:rounded-l-none hover:bg-gray-100 transition-colors duration-200"
+                className="px-8 py-4 bg-[#D4AF37] text-[#2C3E50] font-semibold rounded-lg sm:rounded-l-none hover:bg-[#E8C752] transition-colors duration-200"
               >
                 Subscribe
               </motion.button>

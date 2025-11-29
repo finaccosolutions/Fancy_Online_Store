@@ -81,7 +81,7 @@ const Header: React.FC = () => {
               {settings.logo_url ? (
                 <motion.img
                   src={settings.logo_url}
-                  alt={settings.site_name || 'Velora Tradings'}
+                  alt={settings.site_name || 'Trendy Bazar'}
                   className="h-10 w-auto max-w-[180px] object-contain"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -91,13 +91,13 @@ const Header: React.FC = () => {
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-gradient-to-r from-[#815536] to-[#c9baa8] p-2 rounded-lg group-hover:shadow-lg transition-all duration-200 flex-shrink-0"
+                    className="bg-gradient-to-r from-[#0A8DB0] to-[#D4AF37] p-2 rounded-lg group-hover:shadow-lg transition-all duration-200 flex-shrink-0"
                   >
-                    <span className="text-white font-bold text-xl">V</span>
+                    <span className="text-white font-bold text-xl">TB</span>
                   </motion.div>
                   <div className="group-hover:scale-105 transition-transform duration-200">
-                    <h1 className="text-xl sm:text-2xl font-bold text-[#815536] group-hover:text-[#6d4429] transition-colors duration-200">{settings.site_name || 'Velora'}</h1>
-                    <p className="text-xs text-[#c9baa8] -mt-1">TRADINGS</p>
+                    <h1 className="text-xl sm:text-2xl font-bold text-[#0A8DB0] group-hover:text-[#086A88] transition-colors duration-200">{settings.site_name || 'Trendy Bazar'}</h1>
+                    <p className="text-xs text-[#D4AF37] -mt-1">FASHION & STYLE</p>
                   </div>
                 </>
               )}
@@ -111,21 +111,21 @@ const Header: React.FC = () => {
                   to={item.path}
                   className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                     isActivePath(item.path)
-                      ? 'text-[#815536] bg-[#815536]/10'
-                      : 'text-gray-700 hover:text-[#815536] hover:bg-[#815536]/5'
+                      ? 'text-[#0A8DB0] bg-[#0A8DB0]/10'
+                      : 'text-gray-700 hover:text-[#0A8DB0] hover:bg-[#0A8DB0]/5'
                   }`}
                 >
                   <span className="relative z-10">{item.label}</span>
                   {isActivePath(item.path) && (
                     <motion.div
                       layoutId="activeTab"
-                      className="absolute inset-0 bg-gradient-to-r from-[#815536]/10 to-[#c9baa8]/10 rounded-lg border border-[#815536]/20"
+                      className="absolute inset-0 bg-gradient-to-r from-[#0A8DB0]/10 to-[#D4AF37]/10 rounded-lg border border-[#0A8DB0]/20"
                       initial={false}
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-[#815536]/5 to-[#c9baa8]/5 rounded-lg opacity-0"
+                    className="absolute inset-0 bg-gradient-to-r from-[#0A8DB0]/5 to-[#D4AF37]/5 rounded-lg opacity-0"
                     whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
                   />
@@ -140,7 +140,7 @@ const Header: React.FC = () => {
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  className="relative p-3 text-gray-700 hover:text-[#815536] hover:bg-[#815536]/10 rounded-lg transition-all duration-200"
+                  className="relative p-3 text-gray-700 hover:text-[#0A8DB0] hover:bg-[#0A8DB0]/10 rounded-lg transition-all duration-200"
                   title="Wishlist"
                 >
                   <Heart className="h-5 w-5" />
@@ -169,7 +169,7 @@ const Header: React.FC = () => {
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  className="relative p-3 text-gray-700 hover:text-[#815536] hover:bg-[#815536]/10 rounded-lg transition-all duration-200"
+                  className="relative p-3 text-gray-700 hover:text-[#0A8DB0] hover:bg-[#0A8DB0]/10 rounded-lg transition-all duration-200"
                   title="Shopping Cart"
                 >
                   <ShoppingCart className="h-5 w-5" />
@@ -179,14 +179,14 @@ const Header: React.FC = () => {
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0, opacity: 0 }}
-                        className="absolute -top-1 -right-1 bg-[#815536] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold shadow-lg"
+                        className="absolute -top-1 -right-1 bg-[#0A8DB0] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold shadow-lg"
                       >
                         {cartItemsCount}
                       </motion.span>
                     )}
                   </AnimatePresence>
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-[#815536]/10 to-[#c9baa8]/10 rounded-lg opacity-0"
+                    className="absolute inset-0 bg-gradient-to-r from-[#0A8DB0]/10 to-[#D4AF37]/10 rounded-lg opacity-0"
                     whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
                   />
@@ -199,12 +199,12 @@ const Header: React.FC = () => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="relative p-3 text-gray-700 hover:text-[#815536] hover:bg-[#815536]/10 rounded-lg transition-all duration-200 group"
+                  className="relative p-3 text-gray-700 hover:text-[#0A8DB0] hover:bg-[#0A8DB0]/10 rounded-lg transition-all duration-200 group"
                   title={user ? `${userProfile?.full_name || 'User'} Account` : 'Account'}
                 >
                   <User className="h-5 w-5" />
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-[#815536]/10 to-[#c9baa8]/10 rounded-lg opacity-0"
+                    className="absolute inset-0 bg-gradient-to-r from-[#0A8DB0]/10 to-[#D4AF37]/10 rounded-lg opacity-0"
                     whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
                   />
@@ -230,7 +230,7 @@ const Header: React.FC = () => {
                       {user ? (
                         <>
                           {/* User Info Header */}
-                          <div className="px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-[#815536]/5 to-[#c9baa8]/5">
+                          <div className="px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-[#0A8DB0]/5 to-[#D4AF37]/5">
                             {authLoading && !userProfile ? (
                               <p className="text-sm font-semibold text-gray-900">Loading profile...</p>
                             ) : (
@@ -238,7 +238,7 @@ const Header: React.FC = () => {
                                 <p className="text-sm font-semibold text-gray-900 truncate">{userProfile?.full_name || 'User'}</p>
                                 <p className="text-xs text-gray-500 truncate">{userProfile?.email || user?.email}</p>
                                 {isAdmin && (
-                                  <span className="inline-block mt-1 px-2 py-1 bg-[#815536] text-white text-xs rounded-full">
+                                  <span className="inline-block mt-1 px-2 py-1 bg-[#0A8DB0] text-white text-xs rounded-full">
                                     Administrator
                                   </span>
                                 )}
@@ -256,20 +256,20 @@ const Header: React.FC = () => {
                                 <div className="md:hidden">
                                   <Link
                                     to="/cart"
-                                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#815536]/10 hover:text-[#815536] transition-colors duration-200"
+                                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#0A8DB0]/10 hover:text-[#0A8DB0] transition-colors duration-200"
                                     onClick={() => setIsProfileOpen(false)}
                                   >
                                     <ShoppingCart className="h-4 w-4 mr-3" />
                                     My Cart
                                     {cartItemsCount > 0 && (
-                                      <span className="ml-auto bg-[#815536] text-white text-xs px-2 py-1 rounded-full">
+                                      <span className="ml-auto bg-[#0A8DB0] text-white text-xs px-2 py-1 rounded-full">
                                         {cartItemsCount}
                                       </span>
                                     )}
                                   </Link>
                                   <Link
                                     to="/wishlist"
-                                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#815536]/10 hover:text-[#815536] transition-colors duration-200"
+                                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#0A8DB0]/10 hover:text-[#0A8DB0] transition-colors duration-200"
                                     onClick={() => setIsProfileOpen(false)}
                                   >
                                     <Heart className="h-4 w-4 mr-3" />
@@ -285,7 +285,7 @@ const Header: React.FC = () => {
 
                                 <Link
                                   to="/profile"
-                                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#815536]/10 hover:text-[#815536] transition-colors duration-200"
+                                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#0A8DB0]/10 hover:text-[#0A8DB0] transition-colors duration-200"
                                   onClick={() => setIsProfileOpen(false)}
                                 >
                                   <User className="h-4 w-4 mr-3" />
@@ -293,7 +293,7 @@ const Header: React.FC = () => {
                                 </Link>
                                 <Link
                                   to="/orders"
-                                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#815536]/10 hover:text-[#815536] transition-colors duration-200"
+                                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#0A8DB0]/10 hover:text-[#0A8DB0] transition-colors duration-200"
                                   onClick={() => setIsProfileOpen(false)}
                                 >
                                   <ShoppingCart className="h-4 w-4 mr-3" />
@@ -303,7 +303,7 @@ const Header: React.FC = () => {
                                 {/* Desktop Wishlist link */}
                                 <Link
                                   to="/wishlist"
-                                  className="hidden md:flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#815536]/10 hover:text-[#815536] transition-colors duration-200"
+                                  className="hidden md:flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#0A8DB0]/10 hover:text-[#0A8DB0] transition-colors duration-200"
                                   onClick={() => setIsProfileOpen(false)}
                                 >
                                   <Heart className="h-4 w-4 mr-3" />
@@ -317,7 +317,7 @@ const Header: React.FC = () => {
 
                                 <Link
                                   to="/addresses"
-                                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#815536]/10 hover:text-[#815536] transition-colors duration-200"
+                                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#0A8DB0]/10 hover:text-[#0A8DB0] transition-colors duration-200"
                                   onClick={() => setIsProfileOpen(false)}
                                 >
                                   <MapPin className="h-4 w-4 mr-3" />
@@ -326,7 +326,7 @@ const Header: React.FC = () => {
                                 {isAdmin && (
                                   <Link
                                     to="/admin/dashboard"
-                                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#815536]/10 hover:text-[#815536] transition-colors duration-200"
+                                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#0A8DB0]/10 hover:text-[#0A8DB0] transition-colors duration-200"
                                     onClick={() => setIsProfileOpen(false)}
                                   >
                                     <Settings className="h-4 w-4 mr-3" />
@@ -351,7 +351,7 @@ const Header: React.FC = () => {
                         <div className="py-1">
                           <Link
                             to="/login"
-                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#815536]/10 hover:text-[#815536] transition-colors duration-200"
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#0A8DB0]/10 hover:text-[#0A8DB0] transition-colors duration-200"
                             onClick={() => setIsProfileOpen(false)}
                           >
                             <User className="h-4 w-4 mr-3" />
@@ -359,7 +359,7 @@ const Header: React.FC = () => {
                           </Link>
                           <Link
                             to="/register"
-                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#815536]/10 hover:text-[#815536] transition-colors duration-200"
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#0A8DB0]/10 hover:text-[#0A8DB0] transition-colors duration-200"
                             onClick={() => setIsProfileOpen(false)}
                           >
                             <User className="h-4 w-4 mr-3" />
@@ -377,7 +377,7 @@ const Header: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 text-gray-700 hover:text-[#815536] hover:bg-[#815536]/10 rounded-lg transition-all duration-200 flex-shrink-0"
+                className="md:hidden p-2 text-gray-700 hover:text-[#0A8DB0] hover:bg-[#0A8DB0]/10 rounded-lg transition-all duration-200 flex-shrink-0"
                 aria-label="Toggle Menu"
               >
                 {isMenuOpen ? (
@@ -414,8 +414,8 @@ const Header: React.FC = () => {
                         to={item.path}
                         className={`block px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
                           isActivePath(item.path)
-                            ? 'text-[#815536] bg-[#815536]/10 border-l-4 border-[#815536]'
-                            : 'text-gray-700 hover:text-[#815536] hover:bg-[#815536]/5'
+                            ? 'text-[#0A8DB0] bg-[#0A8DB0]/10 border-l-4 border-[#0A8DB0]'
+                            : 'text-gray-700 hover:text-[#0A8DB0] hover:bg-[#0A8DB0]/5'
                         }`}
                         onClick={() => setIsMenuOpen(false)}
                       >
@@ -436,15 +436,15 @@ const Header: React.FC = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="bg-gradient-to-r from-[#815536]/5 to-[#c9baa8]/5 border-b border-[#815536]/10"
+              className="bg-gradient-to-r from-[#0A8DB0]/5 to-[#D4AF37]/5 border-b border-[#0A8DB0]/10"
             >
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
                 <div className="flex items-center space-x-2 text-sm">
-                  <Link to="/" className="text-gray-500 hover:text-[#815536] transition-colors">
+                  <Link to="/" className="text-gray-500 hover:text-[#0A8DB0] transition-colors">
                     Home
                   </Link>
                   <span className="text-gray-400">/</span>
-                  <span className="text-[#815536] font-medium capitalize">
+                  <span className="text-[#0A8DB0] font-medium capitalize">
                     {location.pathname === '/products' && 'Products'}
                     {location.pathname === '/about' && 'About Us'}
                     {location.pathname === '/contact' && 'Contact'}
