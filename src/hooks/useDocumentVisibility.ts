@@ -1,0 +1,20 @@
+// src/hooks/useDocumentVisibility.ts
+import { useState, useEffect } from 'react';
+
+export const useDocumentVisibility = () => {
+  const [isVisible, setIsVisible] = useState(document.visibilityState === 'visible');
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsVisible(document.visibilityState === 'visible');
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
+  return isVisible;
+};

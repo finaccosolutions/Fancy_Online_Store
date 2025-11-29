@@ -1,0 +1,45 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Remove .php extension from URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)\.php$ $1 [L,R=301]
+
+# Rewrite URLs to route to appropriate PHP files
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^/api/auth/signup(/|$)
+RewriteRule ^api/auth/signup$ /api/auth/signup.php [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^/api/auth/signin(/|$)
+RewriteRule ^api/auth/signin$ /api/auth/signin.php [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^/api/auth/get-user(/|$)
+RewriteRule ^api/auth/get-user$ /api/auth/get-user.php [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^/api/auth/update-profile(/|$)
+RewriteRule ^api/auth/update-profile$ /api/auth/update-profile.php [QSA,L]
+
+# Security headers
+<FilesMatch "\.(php)$">
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+</FilesMatch>
+
+# Protect sensitive directories
+<FilesMatch "^(config|storage|database)" >
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Disable directory listing
+Options -Indexes
+</IfModule>
