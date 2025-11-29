@@ -359,7 +359,7 @@ const AdminProducts: React.FC = () => {
                         >
                           <option value="">Select a category</option>
                           {allCategories.map((cat) => (
-                            <option key={cat.id} value={cat.id}>
+                            <option key={cat.id} value={cat.name}>
                               {cat.name}
                             </option>
                           ))}
