@@ -87,7 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
           />
         </Link>
         {product.original_price && (
-          <div className="absolute top-4 left-4 bg-[#815536] text-white px-2 py-1 rounded-lg text-sm font-semibold z-10 pointer-events-none">
+          <div className="absolute top-4 left-4 bg-[brand-blue] text-white px-2 py-1 rounded-lg text-sm font-semibold z-10 pointer-events-none">
             {Math.round(((product.original_price - product.price) / product.original_price) * 100)}% OFF
           </div>
         )}
@@ -121,7 +121,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
             <span className="text-sm text-gray-600">({product.reviews_count})</span>
           </div>
 
-          <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#815536] transition-colors">
+          <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[brand-blue] transition-colors">
             {product.name}
           </h3>
           
@@ -131,12 +131,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
 
           <div className="flex items-center justify-between mb-4">
             <div>
-              <span className="text-2xl font-bold text-[#815536]">₹{product.price}</span>
+              <span className="text-2xl font-bold text-[brand-blue]">₹{product.price}</span>
               {product.original_price && (
                 <span className="text-lg text-gray-400 line-through ml-2">₹{product.original_price}</span>
               )}
             </div>
-            <span className="text-sm text-[#c9baa8] bg-[#c9baa8]/20 px-3 py-1 rounded-full">
+            <span className="text-sm text-[brand-yellow] bg-[brand-yellow]/20 px-3 py-1 rounded-full">
               {product.category_name} {/* Display category_name */}
             </span>
           </div>
@@ -144,7 +144,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
           <div className="flex space-x-2"> {/* NEW: Flex container for buttons */}
             <Link
               to={`/product/${product.id}`}
-              className="block w-full bg-gradient-to-r from-[#815536] to-[#c9baa8] text-white py-3 px-4 rounded-lg font-semibold hover:from-[#6d4429] hover:to-[#b8a494] transition-all duration-200 text-center"
+              className="block w-full bg-gradient-to-r from-[brand-blue] to-[brand-yellow] text-white py-3 px-4 rounded-lg font-semibold hover:from-[blue-900] hover:to-[brand-yellow] transition-all duration-200 text-center"
             >
               View Details
             </Link>
@@ -153,7 +153,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleBuyNow}
-              className="flex-shrink-0 px-4 py-3 border-2 border-[#815536] text-[#815536] font-semibold rounded-lg hover:bg-[#815536] hover:text-white transition-all duration-200"
+              className="flex-shrink-0 px-4 py-3 border-2 border-[brand-blue] text-[brand-blue] font-semibold rounded-lg hover:bg-[brand-blue] hover:text-white transition-all duration-200"
             >
               Buy Now
             </motion.button>

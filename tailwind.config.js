@@ -4,28 +4,40 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Existing colors
-        'primary-brown': '#815536',
-        'secondary-brown': '#c9baa8',
-        'accent-brown': '#a67c52',
-        'dark-brown': '#6d4429',
-        'light-brown': '#b8a494',
-        
-        // NEW: Admin Panel Colors (Light Theme)
+        primary: {
+          50: '#f0f5fa',
+          100: '#e1eaf5',
+          200: '#c3d5eb',
+          300: '#a5c1e1',
+          400: '#7d9dd0',
+          500: '#1e40af',
+          600: '#1e3a8a',
+          700: '#1e3a8a',
+          800: '#172554',
+          900: '#0f1b3c',
+        },
+        brand: {
+          blue: '#0a1e52',
+          'blue-dark': '#051028',
+          'blue-light': '#1e40af',
+          yellow: '#fbbf24',
+          'yellow-dark': '#f59e0b',
+          'yellow-light': '#fcd34d',
+        },
         admin: {
-          primary: '#007BFF', // A standard blue for primary actions/highlights
-          'primary-dark': '#0056B3', // Darker shade for hover/active states
-          secondary: '#6F42C1', // A purple for secondary elements
-          background: '#F8F9FA', // Very light gray background for the admin panel
-          sidebar: '#FFFFFF', // White for sidebar
-          card: '#FFFFFF', // White for cards/sections
-          border: '#E0E0E0', // Light gray border color
-          text: '#343A40', // Dark charcoal text for readability
-          'text-dark': '#495057', // Slightly lighter charcoal text
-          'text-light': '#6C757D', // Medium gray text for secondary info
-          danger: '#DC3545', // Red for destructive actions
-          success: '#28A745', // Green for success messages
-          warning: '#FFC107', // Yellow for warnings
+          primary: '#1e40af',
+          'primary-dark': '#172554',
+          secondary: '#fbbf24',
+          background: '#f8fafc',
+          sidebar: '#ffffff',
+          card: '#ffffff',
+          border: '#e2e8f0',
+          text: '#1e293b',
+          'text-dark': '#334155',
+          'text-light': '#64748b',
+          danger: '#dc2626',
+          success: '#16a34a',
+          warning: '#ea580c',
         },
       },
     },
