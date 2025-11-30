@@ -29,6 +29,11 @@ import AdminGSTReports from './pages/admin/AdminGSTReports';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminHeroCarousel from './pages/admin/AdminHeroCarousel';
+import AdminFAQ from './pages/admin/AdminFAQ';
+import AdminTestimonials from './pages/admin/AdminTestimonials';
+import AdminCoupons from './pages/admin/AdminCoupons';
+import AdminHelpArticles from './pages/admin/AdminHelpArticles';
+import AdminSystemLogs from './pages/admin/AdminSystemLogs';
 import { ToastProvider } from './context/ToastContext';
 import ScrollToTop from './components/ScrollToTop';
 import EmailVerified from './pages/EmailVerified';
@@ -50,6 +55,11 @@ function AppContent() {
               <Route path="users" element={<AdminUsers />} />
               <Route path="categories" element={<AdminCategories />} />
               <Route path="hero-carousel" element={<AdminHeroCarousel />} />
+              <Route path="coupons" element={<AdminCoupons />} />
+              <Route path="testimonials" element={<AdminTestimonials />} />
+              <Route path="faqs" element={<AdminFAQ />} />
+              <Route path="help-articles" element={<AdminHelpArticles />} />
+              <Route path="system-logs" element={<AdminSystemLogs />} />
               <Route path="settings" element={<AdminSettings />} />
               <Route path="reports" element={<AdminReports />} />
               <Route path="gst-reports" element={<AdminGSTReports />} />
