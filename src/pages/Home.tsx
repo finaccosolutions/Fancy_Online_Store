@@ -157,10 +157,19 @@ const Home: React.FC = () => {
     }
   };
 
-  const handleBuyNow = (e: React.MouseEvent, productId: string) => {
+  const handleBuyNow = async (e: React.MouseEvent, productId: string) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate(`/checkout?buyNow=${productId}`);
+
+    const result = await addToCart(productId, 1);
+    if (!result.error) {
+      showToast('Product added to cart! Navigating...', 'success');
+      setTimeout(() => {
+        navigate('/cart');
+      }, 300);
+    } else {
+      showToast(result.error.error_description || result.error.message, 'error');
+    }
   };
 
   const scrollCategories = (direction: 'left' | 'right') => {
@@ -222,11 +231,11 @@ const Home: React.FC = () => {
                 transition={{ duration: 0.8, ease: 'easeInOut' }}
               >
                 {heroImages.map((image, idx) => (
-                  <div key={image.id} className="min-w-full h-full flex-shrink-0">
+                  <div key={image.id} className="min-w-full h-full flex-shrink-0 flex items-center justify-center">
                     <motion.img
                       src={image.image_url}
                       alt={`Hero Banner ${idx + 1}`}
-                      className="w-full h-full object-cover opacity-85"
+                      className="w-full h-full object-contain opacity-85"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = 'none';
                       }}
@@ -527,12 +536,12 @@ const Home: React.FC = () => {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent group-hover:from-blue-600/60 transition-all duration-500" />
 
-                        {/* Wishlist Button - visible on hover */}
+                        {/* Wishlist Button - always visible */}
                         <motion.button
                           onClick={(e) => handleWishlistToggle(e, product.id, product.name)}
                           whileHover={{ scale: 1.15 }}
                           whileTap={{ scale: 0.9 }}
-                          className="absolute top-2 right-2 z-10 p-1.5 bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100"
+                          className="absolute top-2 right-2 z-10 p-1.5 bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300"
                           aria-label={isInWishlist(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
                         >
                           <Heart
@@ -551,14 +560,37 @@ const Home: React.FC = () => {
                         >
                           {product.name}
                         </h4>
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="text-sm font-bold text-gray-900">
-                            ₹{product.price.toLocaleString()}
-                          </span>
-                          {product.rating > 0 && (
-                            <span className="text-xs text-amber-600 font-semibold">
-                              ★ {product.rating.toFixed(1)}
+                        <div className="mb-3">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-sm font-bold text-gray-900">
+                              ₹{product.price.toLocaleString()}
                             </span>
+                            {product.original_price && product.original_price > product.price && (
+                              <span className="text-xs text-gray-400 line-through">
+                                ₹{product.original_price.toLocaleString()}
+                              </span>
+                            )}
+                          </div>
+                          {product.rating > 0 && (
+                            <div className="flex items-center gap-1">
+                              <div className="flex items-center gap-0.5">
+                                {[...Array(5)].map((_, i) => (
+                                  <span
+                                    key={i}
+                                    className={`text-xs ${
+                                      i < Math.floor(product.rating)
+                                        ? 'text-amber-600'
+                                        : 'text-gray-300'
+                                    }`}
+                                  >
+                                    ★
+                                  </span>
+                                ))}
+                              </div>
+                              <span className="text-xs text-gray-600 font-semibold">
+                                {product.rating.toFixed(1)}
+                              </span>
+                            </div>
                           )}
                         </div>
 

@@ -1,0 +1,26 @@
+FIXES APPLIED - November 30, 2024
+
+1. HERO CAROUSEL IMAGES - Fixed Image Display
+   Location: src/pages/Home.tsx (Lines 225, 229)
+   Issue: Images showed partial overlap when scrolling
+   Fix: Changed object-cover to object-contain and added flex centering
+   Result: Each image displays fully in one scroll without overlap
+
+2. EXPLORE COLLECTIONS - Products Display Enhanced
+   Location: src/pages/Home.tsx (Lines 563-595)
+   Issues Fixed:
+   a) Missing MRP (Original Price) - Now shows strikethrough price below current price
+   b) Incomplete Star Rating - Now shows all 5 stars with filled/unfilled stars
+   c) Hidden Wishlist Icon on Mobile - Removed hover-only opacity, now always visible
+
+3. BUY NOW FUNCTIONALITY - Fixed Navigation Flow
+   Location: src/pages/Home.tsx (Lines 160-173)
+   Previous: Navigate directly to checkout with buyNow parameter
+   Fixed: 
+   - Adds product to cart first (preserving existing cart items)
+   - Shows success toast with loading message
+   - Navigates to cart page (not checkout)
+   - Existing cart items remain intact
+   Result: User can see all items in cart including buy-now product
+
+All changes tested and built successfully.
