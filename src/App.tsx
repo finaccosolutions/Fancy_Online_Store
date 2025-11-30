@@ -39,6 +39,7 @@ import ScrollToTop from './components/ScrollToTop';
 import EmailVerified from './pages/EmailVerified';
 import ThemeProvider from './components/ThemeProvider';
 import { useTheme } from './hooks/useTheme';
+import CartNotificationPanel from './components/CartNotificationPanel';
 
 function AppContent() {
   useTheme();
@@ -46,6 +47,7 @@ function AppContent() {
   return (
     <Router>
       <ScrollToTop />
+      <CartNotificationPanel />
           <Routes>
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, ShoppingBag, Heart, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Heart, ChevronLeft, ChevronRight, ShoppingCart, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useSiteSettings } from '../hooks/useSiteSettings';
@@ -8,6 +8,7 @@ import { supabaseUrl, supabaseAnonKey } from '../lib/supabase';
 import { createClient } from '@supabase/supabase-js';
 import { useSupabaseWishlist } from '../hooks/useSupabaseWishlist';
 import { useToast } from '../context/ToastContext';
+import { useCart } from '../hooks/useCart';
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -49,6 +50,7 @@ const Home: React.FC = () => {
   const productsScrollRef = useRef<HTMLDivElement>(null);
   const { addToWishlist, removeFromWishlistByProductId, isInWishlist } = useSupabaseWishlist();
   const { showToast } = useToast();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -138,6 +140,27 @@ const Home: React.FC = () => {
         }
       }
     }
+  };
+
+  const handleAddToCart = async (e: React.MouseEvent, productId: string, productName: string, price: number, imageUrl: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const result = await addToCart(productId, 1);
+    if (!result.error) {
+      window.dispatchEvent(new CustomEvent('productAddedToCart', {
+        detail: { name: productName, price, image_url: imageUrl }
+      }));
+      showToast(`${productName} added to cart!`, 'success');
+    } else {
+      showToast(result.error.error_description || result.error.message, 'error');
+    }
+  };
+
+  const handleBuyNow = (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/checkout?buyNow=${productId}`);
   };
 
   const scrollCategories = (direction: 'left' | 'right') => {
@@ -493,8 +516,7 @@ const Home: React.FC = () => {
                   {getProductsByCategory(selectedCategory).map((product) => (
                     <div
                       key={product.id}
-                      onClick={() => navigate(`/product/${product.id}`)}
-                      className="flex-shrink-0 w-52 bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-blue-600 hover:shadow-xl transition-all duration-500 cursor-pointer group hover:-translate-y-1"
+                      className="flex-shrink-0 w-52 bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-blue-600 hover:shadow-xl transition-all duration-500 group hover:-translate-y-1"
                     >
                       <div className="relative h-32 overflow-hidden bg-gray-100">
                         <motion.img
@@ -504,18 +526,32 @@ const Home: React.FC = () => {
                           whileHover={{ scale: 1.1 }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent group-hover:from-blue-600/60 transition-all duration-500" />
-                        <motion.div
-                          className="absolute bottom-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:rotate-12"
-                          whileHover={{ rotate: 12 }}
+
+                        {/* Wishlist Button - visible on hover */}
+                        <motion.button
+                          onClick={(e) => handleWishlistToggle(e, product.id, product.name)}
+                          whileHover={{ scale: 1.15 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="absolute top-2 right-2 z-10 p-1.5 bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100"
+                          aria-label={isInWishlist(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
                         >
-                          <ChevronRight className="text-blue-600" size={16} />
-                        </motion.div>
+                          <Heart
+                            className={`h-4 w-4 transition-colors duration-200 ${
+                              isInWishlist(product.id)
+                                ? 'text-red-500 fill-red-500'
+                                : 'text-gray-300'
+                            }`}
+                          />
+                        </motion.button>
                       </div>
                       <div className="p-3 group-hover:bg-gradient-to-br group-hover:from-blue-50 group-hover:to-white transition-all duration-500">
-                        <h4 className="font-bold text-gray-900 text-sm mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 min-h-[2.5rem]">
+                        <h4
+                          onClick={() => navigate(`/product/${product.id}`)}
+                          className="font-bold text-gray-900 text-sm mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 min-h-[2.5rem] cursor-pointer"
+                        >
                           {product.name}
                         </h4>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between mb-3">
                           <span className="text-sm font-bold text-gray-900">
                             ₹{product.price.toLocaleString()}
                           </span>
@@ -524,6 +560,30 @@ const Home: React.FC = () => {
                               ★ {product.rating.toFixed(1)}
                             </span>
                           )}
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-1.5 text-xs">
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={(e) => handleAddToCart(e, product.id, product.name, product.price, product.image_url)}
+                            className="flex-1 flex items-center justify-center p-1.5 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded transition-all duration-200 gap-1"
+                            aria-label="Add to cart"
+                          >
+                            <ShoppingCart className="h-3 w-3" />
+                            <span>Cart</span>
+                          </motion.button>
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={(e) => handleBuyNow(e, product.id)}
+                            className="flex-1 flex items-center justify-center p-1.5 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded transition-all duration-200 gap-1"
+                            aria-label="Buy now"
+                          >
+                            <Zap className="h-3 w-3" />
+                            <span>Buy</span>
+                          </motion.button>
                         </div>
                       </div>
                     </div>
@@ -641,30 +701,25 @@ const Home: React.FC = () => {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }}
-                      className="flex-1 flex items-center justify-center p-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded transition-all duration-200 shadow-sm hover:shadow-md"
+                      onClick={(e) => handleAddToCart(e, product.id, product.name, product.price, product.image_url)}
+                      className="flex-1 flex items-center justify-center p-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded transition-all duration-200 shadow-sm hover:shadow-md gap-1"
                       aria-label="Add to cart"
                       title="Add to cart"
                     >
-                      <ShoppingBag className="h-4 w-4" />
+                      <ShoppingCart className="h-4 w-4" />
+                      <span className="text-xs">Cart</span>
                     </motion.button>
 
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        navigate(`/product/${product.id}`);
-                      }}
-                      className="flex-1 flex items-center justify-center p-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded transition-all duration-200 shadow-sm hover:shadow-md"
+                      onClick={(e) => handleBuyNow(e, product.id)}
+                      className="flex-1 flex items-center justify-center p-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded transition-all duration-200 shadow-sm hover:shadow-md gap-1"
                       aria-label="Buy now"
                       title="Buy now"
                     >
                       <Zap className="h-4 w-4" />
+                      <span className="text-xs">Buy</span>
                     </motion.button>
                   </div>
                 </div>
