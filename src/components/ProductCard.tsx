@@ -27,6 +27,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
 
     const result = await addToCart(productId, 1);
     if (!result.error) {
+      window.dispatchEvent(new CustomEvent('productAddedToCart', {
+        detail: { name: product.name, price: product.price, image_url: product.image_url }
+      }));
       showToast('Product added to cart!', 'success');
     } else {
       showToast(result.error.error_description || result.error.message, 'error');
@@ -53,6 +56,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
     } else {
       const result = await addToWishlist(productId);
       if (!result.error) {
+        window.dispatchEvent(new CustomEvent('productAddedToWishlist', {
+          detail: { name: productName, image_url: product.image_url }
+        }));
         showToast(`${productName} added to wishlist!`, 'success');
       } else {
         if (result.error.message === 'Please login to add items to wishlist' || result.error.message === 'Please login') {

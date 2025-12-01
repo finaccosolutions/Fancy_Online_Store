@@ -45,9 +45,12 @@ const ProductDetail: React.FC = () => {
     if (product) {
       const result = await addToCart(product.id, quantity);
       if (!result.error) {
-        showToast('Product added to cart!', 'success'); // NEW: Use global showToast
+        window.dispatchEvent(new CustomEvent('productAddedToCart', {
+          detail: { name: product.name, price: product.price, image_url: product.image_url }
+        }));
+        showToast('Product added to cart!', 'success');
       } else {
-        showToast(result.error.message, 'error'); // NEW: Use global showToast
+        showToast(result.error.message, 'error');
       }
     }
   };
@@ -68,6 +71,9 @@ const ProductDetail: React.FC = () => {
     } else {
       const result = await addToWishlist(product.id);
       if (!result.error) {
+        window.dispatchEvent(new CustomEvent('productAddedToWishlist', {
+          detail: { name: product.name, image_url: product.image_url }
+        }));
         showToast(`${product.name} added to wishlist!`, 'success');
       } else {
         showToast(result.error.message, 'error');

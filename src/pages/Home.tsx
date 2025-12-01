@@ -131,6 +131,9 @@ const Home: React.FC = () => {
     } else {
       const result = await addToWishlist(productId);
       if (!result.error) {
+        window.dispatchEvent(new CustomEvent('productAddedToWishlist', {
+          detail: { name: productName, image_url: allProducts.find(p => p.id === productId)?.image_url || '' }
+        }));
         showToast(`${productName} added to wishlist!`, 'success');
       } else {
         if (result.error.message === 'Please login to add items to wishlist' || result.error.message === 'Please login') {
