@@ -68,13 +68,14 @@ const AdminProducts: React.FC = () => {
   const openModal = (product?: any) => {
     if (product) {
       setEditingProduct(product);
+      const categoryId = allCategories.find(cat => cat.name === product.category_name)?.id || '';
       reset({
         name: product.name,
         description: product.description,
         price: product.price,
         original_price: product.original_price,
         image_url: product.image_url,
-        category: product.category,
+        category: categoryId,
         in_stock: product.in_stock,
         features: product.features?.join(', ') || '',
         ingredients: product.ingredients ? product.ingredients.join(', ') : '',
@@ -122,8 +123,13 @@ const AdminProducts: React.FC = () => {
 
     setIsLoading(true);
 
+    const selectedCategory = allCategories.find(cat => cat.id === data.category);
+    const categoryName = selectedCategory?.name || '';
+
     const productData = {
       ...data,
+      category: categoryName,
+      category_id: data.category,
       features: data.features.split(',').map(f => f.trim()).filter(f => f),
       ingredients: data.ingredients ? data.ingredients.split(',').map(i => i.trim()).filter(i => i) : null,
       original_price: data.original_price || null,
@@ -359,7 +365,7 @@ const AdminProducts: React.FC = () => {
                         >
                           <option value="">Select a category</option>
                           {allCategories.map((cat) => (
-                            <option key={cat.id} value={cat.name}>
+                            <option key={cat.id} value={cat.id}>
                               {cat.name}
                             </option>
                           ))}

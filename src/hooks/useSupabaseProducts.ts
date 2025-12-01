@@ -199,6 +199,7 @@ export const useSupabaseProducts = () => {
     original_price?: number | null;
     image_url: string;
     category: string;
+    category_id?: string;
     in_stock?: boolean;
     rating?: number;
     reviews_count?: number;
