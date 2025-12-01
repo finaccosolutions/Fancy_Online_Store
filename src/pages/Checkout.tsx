@@ -238,10 +238,9 @@ const Checkout: React.FC = () => {
 
       const customerEmail = user ? (userProfile?.email || user?.email || '') : guestEmail;
       const customerName = user ? (userProfile?.full_name || 'Customer') : guestFullName;
+      const adminEmail = settings.admin_email || 'admin@example.com';
 
-      const emailData = {
-        to: customerEmail,
-        subject: `Order Confirmation - #${order.id.slice(-8)}`,
+      const baseEmailData = {
         orderData: {
           orderId: order.id,
           customerName: customerName,
@@ -255,20 +254,46 @@ const Checkout: React.FC = () => {
 
       const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-order-email`;
 
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(emailData)
-      });
+      const customerEmailData = {
+        ...baseEmailData,
+        to: customerEmail,
+        subject: `Order Confirmation - #${order.id.slice(-8)}`,
+        recipientType: 'customer'
+      };
 
-      if (response.ok) {
-        console.log('Order emails sent successfully');
+      const adminEmailData = {
+        ...baseEmailData,
+        to: adminEmail,
+        subject: `New Order Received - #${order.id.slice(-8)}`,
+        recipientType: 'admin'
+      };
+
+      const [customerResponse, adminResponse] = await Promise.all([
+        fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(customerEmailData)
+        }),
+        fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(adminEmailData)
+        })
+      ]);
+
+      if (customerResponse.ok && adminResponse.ok) {
+        console.log('Order emails sent successfully to customer and admin');
       } else {
-        const errorData = await response.json();
-        console.warn('Email sending failed (order still created):', errorData);
+        const errors = [];
+        if (!customerResponse.ok) errors.push('Customer email failed');
+        if (!adminResponse.ok) errors.push('Admin email failed');
+        console.warn('Email sending issue (order still created):', errors.join(', '));
       }
     } catch (error) {
       console.warn('Email sending error (order still created):', error);

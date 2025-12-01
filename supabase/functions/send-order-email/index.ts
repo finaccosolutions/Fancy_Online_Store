@@ -10,6 +10,7 @@ const corsHeaders = {
 interface EmailRequest {
   to: string;
   subject: string;
+  recipientType: 'customer' | 'admin';
   orderData: {
     orderId: string;
     customerName: string;
@@ -228,9 +229,9 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const { to, subject, orderData }: EmailRequest = await req.json();
+    const { to, subject, recipientType, orderData }: EmailRequest = await req.json();
 
-    if (!subject || !orderData || !to) {
+    if (!subject || !orderData || !to || !recipientType) {
       return new Response(
         JSON.stringify({ error: 'Missing required fields' }),
         {
@@ -266,32 +267,33 @@ Deno.serve(async (req: Request) => {
 
     const siteName = settings.site_name || 'Velora Tradings';
     const currencySymbol = settings.currency_symbol || '₹';
-    const adminEmail = settings.admin_email || 'admin@example.com';
 
-    const customerHtml = generateCustomerEmailHTML(orderData, siteName, currencySymbol);
-    const adminHtml = generateAdminEmailHTML(orderData, siteName, currencySymbol);
+    let emailHtml: string;
+    let finalSubject: string = subject;
 
-    const customerResult = await sendEmail(to, subject, customerHtml, settings);
-    const adminResult = await sendEmail(adminEmail, `New Order Received - #${orderData.orderId.slice(-8)}`, adminHtml, settings);
+    if (recipientType === 'customer') {
+      emailHtml = generateCustomerEmailHTML(orderData, siteName, currencySymbol);
+    } else {
+      emailHtml = generateAdminEmailHTML(orderData, siteName, currencySymbol);
+      finalSubject = `New Order Received - #${orderData.orderId.slice(-8)}`;
+    }
 
-    if (customerResult.success && adminResult.success) {
+    const result = await sendEmail(to, finalSubject, emailHtml, settings);
+
+    if (result.success) {
       return new Response(
-        JSON.stringify({ success: true, message: 'Emails sent successfully to customer and admin' }),
+        JSON.stringify({ success: true, message: `Email sent successfully to ${recipientType}` }),
         {
           status: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       );
     } else {
-      const errors = [];
-      if (!customerResult.success) errors.push('Customer email failed');
-      if (!adminResult.success) errors.push('Admin email failed');
-
       return new Response(
         JSON.stringify({
           success: false,
-          error: errors.join(', '),
-          warning: 'Order was placed successfully but email notifications failed. Please check SMTP configuration in admin panel.'
+          error: result.error,
+          warning: 'Order was placed successfully but email notification failed. Please check SMTP configuration in admin panel.'
         }),
         {
           status: 500,
