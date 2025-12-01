@@ -101,11 +101,11 @@ const Checkout: React.FC = () => {
       return;
     }
 
-    if (!cartLoading && cartItems.length === 0) {
+    if (!cartLoading && cartItems.length === 0 && user) {
       console.log('Cart is empty after loading, redirecting to cart page');
-      navigate('/cart', { replace: true });
+      navigate('/', { replace: true });
     }
-  }, [buyNowProductId, cartLoading, cartItems.length, navigate, isOrderPlaced]);
+  }, [buyNowProductId, cartLoading, cartItems.length, navigate, isOrderPlaced, user]);
 
   useEffect(() => {
     if (addresses.length > 0 && !selectedAddressId) {

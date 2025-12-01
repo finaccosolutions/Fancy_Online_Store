@@ -228,13 +228,7 @@ const Cart: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => {
-                  if (!user) {
-                    navigate('/login', { state: { returnTo: '/checkout' } });
-                  } else {
-                    navigate('/checkout');
-                  }
-                }}
+                onClick={() => navigate('/checkout')}
                 className="w-full bg-gradient-to-r from-blue-600 to-yellow-500 text-white py-4 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-yellow-600 transition-all duration-200"
               >
                 Proceed to Checkout

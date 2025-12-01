@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { useSiteSettings } from '../hooks/useSiteSettings';
 import { supabaseUrl, supabaseAnonKey } from '../lib/supabase';
 import { createClient } from '@supabase/supabase-js';
-import { useSupabaseWishlist } from '../hooks/useSupabaseWishlist';
+import { useWishlist } from '../hooks/useWishlist';
 import { useToast } from '../context/ToastContext';
 import { useCart } from '../hooks/useCart';
 
@@ -48,7 +48,7 @@ const Home: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const categoriesScrollRef = useRef<HTMLDivElement>(null);
   const productsScrollRef = useRef<HTMLDivElement>(null);
-  const { addToWishlist, removeFromWishlistByProductId, isInWishlist } = useSupabaseWishlist();
+  const { addToWishlist, removeFromWishlistByProductId, isInWishlist } = useWishlist();
   const { showToast } = useToast();
   const { addToCart } = useCart();
 
