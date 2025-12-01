@@ -61,23 +61,19 @@ const ProductDetail: React.FC = () => {
     if (!product) return;
     const isCurrentlyInWishlist = isInWishlist(product.id);
 
-    if (isCurrentlyInWishlist) {
-      const result = await removeFromWishlistByProductId(product.id);
-      if (!result.error) {
+    try {
+      if (isCurrentlyInWishlist) {
+        await removeFromWishlistByProductId(product.id);
         showToast(`${product.name} removed from wishlist!`, 'success');
       } else {
-        showToast(result.error.message, 'error');
-      }
-    } else {
-      const result = await addToWishlist(product.id);
-      if (!result.error) {
+        await addToWishlist(product.id);
         window.dispatchEvent(new CustomEvent('productAddedToWishlist', {
           detail: { name: product.name, image_url: product.image_url }
         }));
         showToast(`${product.name} added to wishlist!`, 'success');
-      } else {
-        showToast(result.error.message, 'error');
       }
+    } catch (error) {
+      showToast('Failed to update wishlist', 'error');
     }
   };
 
