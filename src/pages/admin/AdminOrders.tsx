@@ -171,6 +171,9 @@ const AdminOrders: React.FC = () => {
 
   const handleUpdateOrder = async (orderId: string) => {
     try {
+      const order = orders.find(o => o.id === orderId);
+      if (!order) throw new Error('Order not found');
+
       const updateData: any = {
         status: editForm.status,
         tracking_number: editForm.tracking_number || null,
@@ -183,6 +186,34 @@ const AdminOrders: React.FC = () => {
         .eq('id', orderId);
 
       if (error) throw error;
+
+      if (editForm.status !== order.status) {
+        const customerEmail = order.users?.email || order.guest_email;
+        const customerName = order.users?.full_name || order.guest_name || 'Customer';
+
+        if (customerEmail) {
+          const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-order-status-email`;
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              orderId: orderId,
+              newStatus: editForm.status,
+              trackingNumber: editForm.tracking_number || undefined,
+              estimatedDelivery: editForm.estimated_delivery ? new Date(editForm.estimated_delivery).toISOString() : undefined,
+              customerEmail: customerEmail,
+              customerName: customerName,
+            }),
+          });
+
+          if (!response.ok) {
+            console.warn('Failed to send status update email');
+          }
+        }
+      }
 
       showToast('Order updated successfully', 'success');
       setEditingOrder(null);

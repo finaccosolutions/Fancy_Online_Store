@@ -255,47 +255,20 @@ const Checkout: React.FC = () => {
 
       const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-order-email`;
 
-      const sendEmailRequest = async (data: any) => {
-        try {
-          const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-          });
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData)
+      });
 
-          if (response.ok) {
-            return { success: true };
-          } else {
-            const errorData = await response.json();
-            return { success: false, error: errorData };
-          }
-        } catch (error) {
-          return { success: false, error };
-        }
-      };
-
-      const [customerResult, ownerResult] = await Promise.all([
-        sendEmailRequest(emailData),
-        sendEmailRequest({
-          ...emailData,
-          sendToAdmin: true,
-          subject: `New Order Received - #${order.id.slice(-8)}`
-        })
-      ]);
-
-      if (customerResult.success) {
-        console.log('Customer email sent successfully');
+      if (response.ok) {
+        console.log('Order emails sent successfully');
       } else {
-        console.warn('Customer email failed (order still created):', customerResult.error);
-      }
-
-      if (ownerResult.success) {
-        console.log('Owner email sent successfully');
-      } else {
-        console.warn('Owner email failed (order still created):', ownerResult.error);
+        const errorData = await response.json();
+        console.warn('Email sending failed (order still created):', errorData);
       }
     } catch (error) {
       console.warn('Email sending error (order still created):', error);
