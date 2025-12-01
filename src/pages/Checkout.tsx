@@ -389,7 +389,7 @@ const Checkout: React.FC = () => {
         shipping_charges: gstBreakdown.shipping,
         discount_amount: gstBreakdown.discount,
         customer_state: customerState,
-        status: 'pending',
+        status: 'confirmed',
         payment_method: paymentMethod,
         payment_status: paymentMethod === 'cod' ? 'pending' : 'pending',
         shipping_address: deliveryAddress,

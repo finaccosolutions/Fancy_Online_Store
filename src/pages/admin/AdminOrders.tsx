@@ -192,6 +192,12 @@ const AdminOrders: React.FC = () => {
         const customerName = order.users?.full_name || order.guest_name || 'Customer';
 
         if (customerEmail) {
+          const orderItems = order.order_items.map(item => ({
+            name: item.product.name,
+            quantity: item.quantity,
+            price: item.price
+          }));
+
           const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-order-status-email`;
           const response = await fetch(apiUrl, {
             method: 'POST',
@@ -206,6 +212,10 @@ const AdminOrders: React.FC = () => {
               estimatedDelivery: editForm.estimated_delivery ? new Date(editForm.estimated_delivery).toISOString() : undefined,
               customerEmail: customerEmail,
               customerName: customerName,
+              orderItems: orderItems,
+              totalAmount: order.total_amount,
+              shippingAddress: order.shipping_address,
+              paymentMethod: order.payment_method,
             }),
           });
 

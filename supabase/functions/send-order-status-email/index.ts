@@ -14,6 +14,14 @@ interface StatusUpdateRequest {
   estimatedDelivery?: string;
   customerEmail?: string;
   customerName?: string;
+  orderItems?: Array<{
+    name: string;
+    quantity: number;
+    price: number;
+  }>;
+  totalAmount?: number;
+  shippingAddress?: any;
+  paymentMethod?: string;
 }
 
 function generateStatusUpdateEmailHTML(
@@ -22,7 +30,12 @@ function generateStatusUpdateEmailHTML(
   newStatus: string,
   trackingNumber?: string,
   estimatedDelivery?: string,
-  siteName?: string
+  siteName?: string,
+  orderItems?: Array<{ name: string; quantity: number; price: number }>,
+  totalAmount?: number,
+  shippingAddress?: any,
+  paymentMethod?: string,
+  currencySymbol?: string
 ): string {
   const statusMessages: Record<string, string> = {
     confirmed: "Your order has been confirmed and is being prepared for shipment.",
@@ -41,6 +54,16 @@ function generateStatusUpdateEmailHTML(
   const statusMessage = statusMessages[newStatus] || "Your order status has been updated.";
   const statusColor = statusColors[newStatus] || "#2196F3";
   const displayStatus = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+  const currency = currencySymbol || '₹';
+
+  const itemsHTML = orderItems ? orderItems.map(item => `
+    <tr>
+      <td style="padding: 12px; border-bottom: 1px solid #eee;">${item.name}</td>
+      <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: center;">${item.quantity}</td>
+      <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: right;">${currency}${item.price.toLocaleString()}</td>
+      <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: right;">${currency}${(item.price * item.quantity).toLocaleString()}</td>
+    </tr>
+  `).join('') : '';
 
   return `
     <!DOCTYPE html>
@@ -66,6 +89,29 @@ function generateStatusUpdateEmailHTML(
           </div>
         </div>
 
+        ${orderItems && orderItems.length > 0 ? `
+          <h3 style="color: #815536; margin-top: 30px;">Order Items</h3>
+          <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+            <thead>
+              <tr style="background: #f8f8f8;">
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #815536;">Product</th>
+                <th style="padding: 12px; text-align: center; border-bottom: 2px solid #815536;">Qty</th>
+                <th style="padding: 12px; text-align: right; border-bottom: 2px solid #815536;">Price</th>
+                <th style="padding: 12px; text-align: right; border-bottom: 2px solid #815536;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsHTML}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" style="padding: 15px; text-align: right; font-weight: bold; font-size: 16px;">Total Amount:</td>
+                <td style="padding: 15px; text-align: right; font-weight: bold; font-size: 16px; color: #815536;">${currency}${totalAmount ? totalAmount.toLocaleString() : '0'}</td>
+              </tr>
+            </tfoot>
+          </table>
+        ` : ''}
+
         ${trackingNumber ? `
           <div style="background: #e3f2fd; padding: 15px; border-radius: 5px; margin: 20px 0;">
             <h4 style="margin: 0 0 10px 0; color: #2196F3;">Tracking Information</h4>
@@ -78,6 +124,16 @@ function generateStatusUpdateEmailHTML(
           <div style="background: #f0f8f4; padding: 15px; border-radius: 5px; margin: 20px 0;">
             <h4 style="margin: 0 0 10px 0; color: #4CAF50;">Estimated Delivery</h4>
             <p style="margin: 0; font-size: 16px; font-weight: bold; color: #4CAF50;">${new Date(estimatedDelivery).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+          </div>
+        ` : ''}
+
+        ${shippingAddress ? `
+          <h3 style="color: #815536; margin-top: 30px;">Shipping Address</h3>
+          <div style="background: #f8f8f8; padding: 15px; border-radius: 5px;">
+            <p style="margin: 5px 0;">${shippingAddress.full_name || ''}</p>
+            <p style="margin: 5px 0;">${shippingAddress.address_line_1 || ''}${shippingAddress.address_line_2 ? ', ' + shippingAddress.address_line_2 : ''}</p>
+            <p style="margin: 5px 0;">${shippingAddress.city || ''}, ${shippingAddress.state || ''} ${shippingAddress.postal_code || ''}</p>
+            <p style="margin: 5px 0;">Phone: ${shippingAddress.phone || ''}</p>
           </div>
         ` : ''}
 
@@ -150,6 +206,10 @@ Deno.serve(async (req: Request) => {
       estimatedDelivery,
       customerEmail,
       customerName,
+      orderItems,
+      totalAmount,
+      shippingAddress,
+      paymentMethod,
     }: StatusUpdateRequest = await req.json();
 
     if (!orderId || !newStatus || !customerEmail) {
@@ -186,14 +246,55 @@ Deno.serve(async (req: Request) => {
       settings[setting.key] = setting.value;
     });
 
+    let finalOrderItems = orderItems;
+    let finalTotalAmount = totalAmount;
+    let finalShippingAddress = shippingAddress;
+    let finalPaymentMethod = paymentMethod;
+
+    if (!orderItems || orderItems.length === 0) {
+      const { data: orderData, error: orderError } = await supabase
+        .from('orders')
+        .select(`
+          total_amount,
+          payment_method,
+          shipping_address,
+          order_items (
+            quantity,
+            price,
+            product:products (
+              name
+            )
+          )
+        `)
+        .eq('id', orderId)
+        .maybeSingle();
+
+      if (!orderError && orderData) {
+        finalOrderItems = orderData.order_items?.map((item: any) => ({
+          name: item.product?.name || 'Product',
+          quantity: item.quantity,
+          price: item.price
+        })) || [];
+        finalTotalAmount = orderData.total_amount;
+        finalShippingAddress = orderData.shipping_address;
+        finalPaymentMethod = orderData.payment_method;
+      }
+    }
+
     const siteName = settings.site_name || 'Velora Tradings';
+    const currencySymbol = settings.currency_symbol || '₹';
     const html = generateStatusUpdateEmailHTML(
       orderId,
       customerName || 'Customer',
       newStatus,
       trackingNumber,
       estimatedDelivery,
-      siteName
+      siteName,
+      finalOrderItems,
+      finalTotalAmount,
+      finalShippingAddress,
+      finalPaymentMethod,
+      currencySymbol
     );
 
     const subject = `Order Status Update: ${newStatus.charAt(0).toUpperCase() + newStatus.slice(1)}`;
